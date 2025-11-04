@@ -8,5 +8,6 @@ namespace Lab_03
 {
     internal class Test
     {
+        int gg;
     }
 }
