@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Lab_03.Commands
 {
-    internal class DelegateCommand : ICommand
+    public class DelegateCommand : ICommand
     {
         private readonly Action<object> execute;
         private readonly Func<object, bool> canExecute;
@@ -18,6 +18,8 @@ namespace Lab_03.Commands
             this.execute = execute;
             this.canExecute = canExecute;
         }
+
+        public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 
         public event EventHandler? CanExecuteChanged;
 

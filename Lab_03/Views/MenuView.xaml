@@ -9,7 +9,10 @@
     <Menu>
         <MenuItem Header="_File">
             <MenuItem Header="_New Question Pack" />
-            <MenuItem Header="Select Question Pack" />
+            <MenuItem Header="Select Question Pack" 
+                      Command="{Binding ConfigurationViewModel.SetActivePackCommand}"
+                      ItemsSource="{Binding ConfigurationViewModel.AllPacks}"
+                      />
             <MenuItem Header="Delete Question Pack" />
             <Separator />
             <MenuItem Header="Import Questions" />

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Lab_03.ViewModels
 {
-    internal class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase
     {
         public ObservableCollection<QuestionPackViewModel> packs { get; }
         private QuestionPackViewModel _activePack;
-        public PlayerViewModel? playerViewModel { get;}
-        public ConfigurationViewModel? configurationViewModel { get; }
+        public PlayerViewModel? PlayerViewModel { get;}
+        public ConfigurationViewModel? ConfigurationViewModel { get; }
         public QuestionPackViewModel ActivePack
         {
             get => _activePack;
@@ -21,16 +21,13 @@ namespace Lab_03.ViewModels
             {
                 _activePack = value;
                 RaisePropertyChanged();
-                playerViewModel.RaisePropertyChanged(nameof(PlayerViewModel.ActivePack));
+                PlayerViewModel.RaisePropertyChanged(nameof(ViewModels.PlayerViewModel.ActivePack));
             }
         }
         public MainWindowViewModel()
         {
-            playerViewModel = new PlayerViewModel(this);
-            configurationViewModel = new ConfigurationViewModel(this);
-
-            var pack = new QuestionPack("MyQuestionPack");
-            ActivePack = new QuestionPackViewModel(pack);
+            PlayerViewModel = new PlayerViewModel(this);
+            ConfigurationViewModel = new ConfigurationViewModel(this);
         }
 
 

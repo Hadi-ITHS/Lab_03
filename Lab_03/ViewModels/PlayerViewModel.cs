@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Lab_03.ViewModels
 {
-    internal class PlayerViewModel : ViewModelBase
+    public class PlayerViewModel : ViewModelBase
     {
         private readonly MainWindowViewModel _mainWindowViewModel;
         public DelegateCommand SetPackNameCommand { get;}

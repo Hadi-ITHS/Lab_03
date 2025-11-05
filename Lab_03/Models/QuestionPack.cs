@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Lab_03.Models
 {
     public enum Difficulty { Easy, Medium, Hard}
-    internal class QuestionPack
+    public class QuestionPack
     {
         public QuestionPack(string name, int timeLimitInSeconds = 30, Difficulty difficulty = Difficulty.Medium)
         {

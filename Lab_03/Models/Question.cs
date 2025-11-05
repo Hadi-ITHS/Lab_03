@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Lab_03.Models
 {
-    internal class Question
+    public class Question
     {
         public Question(string querry, string correctAnswer, string incorrectAnswer_01, string incorrectAnswer_02, string incorrectAnswer_03)
         {

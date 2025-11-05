@@ -9,7 +9,7 @@ using System.Collections.Specialized;
 
 namespace Lab_03.ViewModels
 {
-    internal class QuestionPackViewModel : ViewModelBase
+    public class QuestionPackViewModel : ViewModelBase
     {
         private readonly QuestionPack _model;
         public string Name
@@ -39,7 +39,7 @@ namespace Lab_03.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public ObservableCollection<Question> Questions;
+        public ObservableCollection<Question> Questions { get; set; }
 
         public QuestionPackViewModel(QuestionPack model)
         {
