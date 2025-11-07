@@ -31,9 +31,17 @@ namespace Lab_03.ViewModels
         }
         public MainWindowViewModel()
         {
+            packs = new ObservableCollection<QuestionPackViewModel>();
+            List<QuestionPack> importedPacks = JsonSerializer.Deserialize<List<QuestionPack>>(File.ReadAllText(("Questions.json")));
+            foreach (var pack in importedPacks)
+            {
+                packs.Add(new QuestionPackViewModel(pack));
+            }
+            if (packs.Count > 0)
+                ActivePack = packs[0];
             PlayerViewModel = new PlayerViewModel(this);
             ConfigurationViewModel = new ConfigurationViewModel(this);
-            packs = new ObservableCollection<QuestionPackViewModel>();
+            
             SetActivePackCommand = new DelegateCommand(SetActivePack);
             //test
             /*string[] a = { "b", "c", "d" };
@@ -55,21 +63,9 @@ namespace Lab_03.ViewModels
             string json = JsonSerializer.Serialize(packs);
             File.WriteAllText("Questions.json", json);*/
             //test
-
-            List<QuestionPack> importedPacks = JsonSerializer.Deserialize<List<QuestionPack>>(File.ReadAllText(("Questions.json")));
-            foreach (var pack in importedPacks)
-            {
-                packs.Add(new QuestionPackViewModel(pack));
-            }
         }
 
-        private void SetActivePack(object? obj)
-        {
-            if (obj is QuestionPackViewModel selectedPack)
-            {
-                ActivePack = selectedPack;
-            }
-        }
+
         private void UpdatePacks()
         {
             for (int i = 0; i < packs.Count; i++)
@@ -80,6 +76,13 @@ namespace Lab_03.ViewModels
                 }
             }
             JsonWrite(packs);
+        }
+        private void SetActivePack(object? obj)
+        {
+            if (obj is QuestionPackViewModel selectedPack)
+            {
+                ActivePack = selectedPack;
+            }
         }
     }
 }

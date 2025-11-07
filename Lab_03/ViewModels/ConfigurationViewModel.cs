@@ -10,8 +10,9 @@ namespace Lab_03.ViewModels
 {
     public class ConfigurationViewModel : ViewModelBase
     {
+        public DelegateCommand RemoveQuestionCommand { get; }
+        public DelegateCommand AddQuestionCommand { get; }
         private List<QuestionPackViewModel> _allPacks = new List<QuestionPackViewModel>();
-        public DelegateCommand SetActivePackCommand {  get; }
         private readonly MainWindowViewModel? _mainWindowViewModel;
         public QuestionPackViewModel ActivePack { get; set; }
         private int _SelectedIndex;
@@ -52,19 +53,16 @@ namespace Lab_03.ViewModels
         {
             _mainWindowViewModel = mainWindowViewModel;
             ActivePack = _mainWindowViewModel.ActivePack;
-            SetActivePackCommand = new DelegateCommand(SetActivePack);
+            RemoveQuestionCommand = new DelegateCommand(RemoveQuestion);
+            AddQuestionCommand = new DelegateCommand(AddQuestion);
         }
-        private bool CanSetActivePack (object? arg)
+        private void RemoveQuestion(object? obj)
         {
-            if (_allPacks is not null)
-                return true;
-            else
-                return false;
+            ActivePack.Questions.Remove(SelectedQuestion);
         }
-
-        private void SetActivePack (object? arg)
+        private void AddQuestion(object? obj)
         {
-            ActivePack =  _allPacks[(int)arg];
+            ActivePack.Questions.Add(new Question("New Question", "CorrectAnswer", new string[3] {null,null,null }));
         }
 
     }
