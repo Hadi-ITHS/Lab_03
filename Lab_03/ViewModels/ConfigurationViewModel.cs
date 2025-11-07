@@ -32,7 +32,7 @@ namespace Lab_03.ViewModels
             {
                 _SelectedIndex = value;
                 RaisePropertyChanged();
-                SelectedQuestion = ActivePack.Questions[SelectedIndex];
+                SelectedQuestion = _mainWindowViewModel.packs[1].Questions[SelectedIndex];
             }
         }
         public Question SelectedQuestion
@@ -52,20 +52,6 @@ namespace Lab_03.ViewModels
             _mainWindowViewModel = mainWindowViewModel;
             ActivePack = _mainWindowViewModel.ActivePack;
             SetActivePackCommand = new DelegateCommand(SetActivePack);
-
-            //test
-            var pack01 = new QuestionPack("Medium Pack 01");
-            ActivePack = new QuestionPackViewModel(pack01);
-            ActivePack.Questions.Add(new Question("Querry01", "a", "b", "c", "d"));
-            ActivePack.Questions.Add(new Question("Querry02", "A", "B", "C", "D"));
-            _allPacks.Add(ActivePack);
-            ActivePack.Questions.Clear();
-
-            var pack02 = new QuestionPack("Hard Pack 02");
-            ActivePack = new QuestionPackViewModel(pack01);
-            ActivePack.Questions.Add(new Question("Querry01", "h", "j", "k", "l"));
-            ActivePack.Questions.Add(new Question("Querry02", "H", "J", "K", "L"));
-            _allPacks.Add(ActivePack);
         }
         private bool CanSetActivePack (object? arg)
         {
@@ -77,7 +63,7 @@ namespace Lab_03.ViewModels
 
         private void SetActivePack (object? arg)
         {
-            ActivePack = _allPacks[(int)arg];
+            ActivePack =  _allPacks[(int)arg];
         }
 
     }

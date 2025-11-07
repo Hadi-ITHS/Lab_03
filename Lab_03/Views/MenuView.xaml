@@ -11,7 +11,7 @@
             <MenuItem Header="_New Question Pack" />
             <MenuItem Header="Select Question Pack" 
                       Command="{Binding ConfigurationViewModel.SetActivePackCommand}"
-                      ItemsSource="{Binding ConfigurationViewModel.AllPacks}"
+                      ItemsSource="{Binding packs}"
                       />
             <MenuItem Header="Delete Question Pack" />
             <Separator />

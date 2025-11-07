@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:Lab_03.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             DataContext="{Binding ConfigurationViewModel}">
-    <Grid >
+             >
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -29,20 +29,20 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Label Name="NameOfQuestionPack" Grid.Row="0" HorizontalAlignment="Left" Content="{Binding ActivePack.Name}" VerticalAlignment="Center" Margin="10 0 0 0"/>
+        <Label Name="NameOfQuestionPack" Grid.Row="0" HorizontalAlignment="Left" Content="{Binding packs[1].Name}" VerticalAlignment="Center" Margin="10 0 0 0"/>
         <Button Name="PackOptions_Button" Content=" :: " Grid.Column="1" Margin="10"/>
         <Button Name="AddQuestion_Button" Content=" + " Grid.Column="2" Margin="10"/>
         <Button Name="RemoveQuestion_Button" Content=" - " Grid.Column="3" Margin="10"/>
-        <ListBox Name="ListOfQuestions" ItemsSource="{Binding ActivePack.Questions}" SelectedIndex="{Binding SelectedIndex}" Grid.RowSpan="12" Grid.ColumnSpan="4" Grid.Row="1" Margin="10"/>
+        <ListBox Name="ListOfQuestions" ItemsSource="{Binding packs[1].Questions}" SelectedIndex="{Binding ConfigurationViewModel.SelectedIndex}" Grid.RowSpan="12" Grid.ColumnSpan="4" Grid.Row="1" Margin="10"/>
         <Label Content="Question:" Grid.Column="4" Grid.Row="1" Margin="10 0"/>
-        <TextBox Name="Querry_Text" Text="{Binding SelectedQuestion.Querry}" Grid.Column="4" Grid.Row="2" Margin="10 0"/>
+        <TextBox Name="Querry_Text" Text="{Binding ConfigurationViewModel.SelectedQuestion.Querry}" Grid.Column="4" Grid.Row="2" Margin="10 0"/>
         <Label Content="Correct Answer:" Grid.Column="4" Grid.Row="3" Margin="10 50 0 0"/>
-        <TextBox Name="CorrectAnswer_Text" Text="{Binding SelectedQuestion.CorrectAnswer}" Grid.Column="4" Grid.Row="4" Margin="10 0"/>
+        <TextBox Name="CorrectAnswer_Text" Text="{Binding ConfigurationViewModel.SelectedQuestion.CorrectAnswer}" Grid.Column="4" Grid.Row="4" Margin="10 0"/>
         <Label Content="First Incorrect Answer:" Grid.Column="4" Grid.Row="5" Margin="10 0"/>
-        <TextBox Name="FirstIncorrectAnswer_Text" Text="{Binding SelectedQuestion.IncorrectAnswers[0]}" Grid.Column="4" Grid.Row="6" Margin="10 0"/>
+        <TextBox Name="FirstIncorrectAnswer_Text" Text="{Binding ConfigurationViewModel.SelectedQuestion.IncorrectAnswers[0]}" Grid.Column="4" Grid.Row="6" Margin="10 0"/>
         <Label Content="Second Incorrect Answer:" Grid.Column="4" Grid.Row="7" Margin="10 0"/>
-        <TextBox Name="SecondIncorrectAnswer_Text" Text="{Binding SelectedQuestion.IncorrectAnswers[1]}"  Grid.Column="4" Grid.Row="8" Margin="10 0"/>
+        <TextBox Name="SecondIncorrectAnswer_Text" Text="{Binding ConfigurationViewModel.SelectedQuestion.IncorrectAnswers[1]}"  Grid.Column="4" Grid.Row="8" Margin="10 0"/>
         <Label Content="Third Incorrect Answer:" Grid.Column="4" Grid.Row="9" Margin="10 0"/>
-        <TextBox Name="ThirdIncorrectAnswer_Text" Text="{Binding SelectedQuestion.IncorrectAnswers[2]}"  Grid.Column="4" Grid.Row="10" Margin="10 0 10 50"/>
+        <TextBox Name="ThirdIncorrectAnswer_Text" Text="{Binding ConfigurationViewModel.SelectedQuestion.IncorrectAnswers[2]}"  Grid.Column="4" Grid.Row="10" Margin="10 0 10 50"/>
     </Grid>
 </UserControl>
