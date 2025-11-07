@@ -25,11 +25,5 @@ namespace Lab_03.Views
         {
             InitializeComponent();
         }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            var a = (MenuItem)sender;
-            var bb = a.Items.CurrentItem;
-        }
     }
 }

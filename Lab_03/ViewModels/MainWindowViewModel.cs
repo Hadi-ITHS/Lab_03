@@ -25,6 +25,7 @@ namespace Lab_03.ViewModels
             {
                 _activePack = value;
                 RaisePropertyChanged();
+                UpdatePacks();
                 //PlayerViewModel.RaisePropertyChanged(nameof(ViewModels.PlayerViewModel.ActivePack));
             }
         }
@@ -60,7 +61,6 @@ namespace Lab_03.ViewModels
             {
                 packs.Add(new QuestionPackViewModel(pack));
             }
-
         }
 
         private void SetActivePack(object? obj)
@@ -69,6 +69,17 @@ namespace Lab_03.ViewModels
             {
                 ActivePack = selectedPack;
             }
+        }
+        private void UpdatePacks()
+        {
+            for (int i = 0; i < packs.Count; i++)
+            {
+                if (packs[i].Equals(ActivePack))
+                {
+                    packs[i] = ActivePack;
+                }
+            }
+            JsonWrite(packs);
         }
     }
 }

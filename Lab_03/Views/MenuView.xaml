@@ -10,8 +10,7 @@
         <MenuItem Header="_File">
             <MenuItem Header="_New Question Pack" />
             <MenuItem Header="Select Question Pack" 
-                      ItemsSource = "{Binding packs}"
-                      MenuItem.Click="MenuItem_Click">
+                      ItemsSource = "{Binding packs}">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
                         <Setter Property="Header" Value="{Binding Name}" />
