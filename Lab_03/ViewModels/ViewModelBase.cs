@@ -22,10 +22,12 @@ namespace Lab_03.ViewModels
 
         public void JsonWrite(ObservableCollection<QuestionPackViewModel> packs)
         {
-            using (var writer = new StreamWriter("Questions.json"))
+            File.WriteAllText("Questions.json", JsonSerializer.Serialize(packs));
+
+            /*using (var writer = new StreamWriter("Questions.json"))
             {
                 writer.Write(JsonSerializer.Serialize(packs));
-            }
+            }*/
         }
     }
 }
