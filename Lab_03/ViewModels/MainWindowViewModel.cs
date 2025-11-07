@@ -32,26 +32,28 @@ namespace Lab_03.ViewModels
             ConfigurationViewModel = new ConfigurationViewModel(this);
             packs = new ObservableCollection<QuestionPackViewModel>();
             //test
-            /*var pack01 = new QuestionPack("Medium Pack 01");
-            pack01.Questions.Add(new Question("Querry01", "a", "b", "c", "d"));
-            pack01.Questions.Add(new Question("Querry02", "A", "B", "C", "D"));
+            /*string[] a = { "b", "c", "d" };
+            string[] A = { "B", "C", "D" };
+            string[] g = { "h", "j", "k" };
+            string[] G = { "H", "J", "K" };
+            var pack01 = new QuestionPack("Medium Pack 01");
+            pack01.Questions.Add(new Question("Querry01", "a", a));
+            pack01.Questions.Add(new Question("Querry02", "A", A));
             ActivePack = new QuestionPackViewModel(pack01);
             packs.Add(ActivePack);
 
 
             var pack02 = new QuestionPack("Hard Pack 02");
-            pack02.Questions.Add(new Question("Querry01", "g", "h", "j", "k"));
-            pack02.Questions.Add(new Question("Querry02", "G", "H", "J", "K"));
+            pack02.Questions.Add(new Question("Querry01", "g", g));
+            pack02.Questions.Add(new Question("Querry02", "G", G));
             ActivePack = new QuestionPackViewModel(pack02);
-            packs.Add(ActivePack);
-            packs.Clear();*/
-
+            packs.Add(ActivePack);*/
             //test
 
             /*string json = JsonSerializer.Serialize(packs);
             File.WriteAllText("Questions.json", json);*/
 
-            List<QuestionPack>  importedPacks = JsonSerializer.Deserialize<List<QuestionPack>>(File.ReadAllText(("Questions.json")));
+            List<QuestionPack> importedPacks = JsonSerializer.Deserialize<List<QuestionPack>>(File.ReadAllText(("Questions.json")));
             foreach (var pack in importedPacks)
             {
                 ActivePack = new QuestionPackViewModel(pack);
