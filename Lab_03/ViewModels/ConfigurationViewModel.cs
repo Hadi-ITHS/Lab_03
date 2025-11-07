@@ -32,7 +32,8 @@ namespace Lab_03.ViewModels
             {
                 _SelectedIndex = value;
                 RaisePropertyChanged();
-                SelectedQuestion = _mainWindowViewModel.packs[1].Questions[SelectedIndex];
+                if (value >= 0)
+                    SelectedQuestion = _mainWindowViewModel.ActivePack.Questions[SelectedIndex];
             }
         }
         public Question SelectedQuestion
