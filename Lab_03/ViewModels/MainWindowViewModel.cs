@@ -1,4 +1,5 @@
-﻿using Lab_03.Models;
+﻿using Lab_03.Commands;
+using Lab_03.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@ namespace Lab_03.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        public DelegateCommand SetActivePackCommand { get; }
         public ObservableCollection<QuestionPackViewModel> packs { get; }
         private QuestionPackViewModel _activePack;
         public PlayerViewModel? PlayerViewModel { get;}
@@ -23,7 +25,7 @@ namespace Lab_03.ViewModels
             {
                 _activePack = value;
                 RaisePropertyChanged();
-                PlayerViewModel.RaisePropertyChanged(nameof(ViewModels.PlayerViewModel.ActivePack));
+                //PlayerViewModel.RaisePropertyChanged(nameof(ViewModels.PlayerViewModel.ActivePack));
             }
         }
         public MainWindowViewModel()
@@ -31,6 +33,7 @@ namespace Lab_03.ViewModels
             PlayerViewModel = new PlayerViewModel(this);
             ConfigurationViewModel = new ConfigurationViewModel(this);
             packs = new ObservableCollection<QuestionPackViewModel>();
+            SetActivePackCommand = new DelegateCommand(SetActivePack);
             //test
             /*string[] a = { "b", "c", "d" };
             string[] A = { "B", "C", "D" };
@@ -47,19 +50,25 @@ namespace Lab_03.ViewModels
             pack02.Questions.Add(new Question("Querry01", "g", g));
             pack02.Questions.Add(new Question("Querry02", "G", G));
             ActivePack = new QuestionPackViewModel(pack02);
-            packs.Add(ActivePack);*/
-            //test
-
-            /*string json = JsonSerializer.Serialize(packs);
+            packs.Add(ActivePack);
+            string json = JsonSerializer.Serialize(packs);
             File.WriteAllText("Questions.json", json);*/
+            //test
 
             List<QuestionPack> importedPacks = JsonSerializer.Deserialize<List<QuestionPack>>(File.ReadAllText(("Questions.json")));
             foreach (var pack in importedPacks)
             {
-                ActivePack = new QuestionPackViewModel(pack);
-                packs.Add(ActivePack);
+                packs.Add(new QuestionPackViewModel(pack));
             }
-            //packs.Add(ActivePack);
+
+        }
+
+        private void SetActivePack(object? obj)
+        {
+            if (obj is QuestionPackViewModel selectedPack)
+            {
+                ActivePack = selectedPack;
+            }
         }
     }
 }

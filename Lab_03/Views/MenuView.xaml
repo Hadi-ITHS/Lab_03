@@ -10,9 +10,16 @@
         <MenuItem Header="_File">
             <MenuItem Header="_New Question Pack" />
             <MenuItem Header="Select Question Pack" 
-                      Command="{Binding ConfigurationViewModel.SetActivePackCommand}"
-                      ItemsSource="{Binding packs}"
-                      />
+                      ItemsSource = "{Binding packs}"
+                      MenuItem.Click="MenuItem_Click">
+                <MenuItem.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Header" Value="{Binding Name}" />
+                        <Setter Property="Command" Value="{Binding DataContext.SetActivePackCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                        <Setter Property="CommandParameter" Value="{Binding}" />
+                    </Style>
+                </MenuItem.ItemContainerStyle>
+            </MenuItem>
             <MenuItem Header="Delete Question Pack" />
             <Separator />
             <MenuItem Header="Import Questions" />

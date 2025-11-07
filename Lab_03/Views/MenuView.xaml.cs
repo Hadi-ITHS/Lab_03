@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab_03.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,12 @@ namespace Lab_03.Views
         public MenuView()
         {
             InitializeComponent();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var a = (MenuItem)sender;
+            var bb = a.Items.CurrentItem;
         }
     }
 }
