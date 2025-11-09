@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab_03.Views"
         mc:Ignorable="d"
-        Title="AddQuestionPackDialog" Height="250" Width="182" ResizeMode="NoResize">
+        Title="AddQuestionPackDialog" Height="300" Width="182" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical">
             <Label Content="Pack Name:" />

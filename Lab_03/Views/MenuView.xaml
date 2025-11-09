@@ -27,7 +27,7 @@
         <MenuItem Header="Edit">
             <MenuItem Header="Add Question" Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
             <MenuItem Header="Remove Question" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}"/>
-            <MenuItem Header="Pack Options" />
+            <MenuItem Header="Pack Options" Command="{Binding OpenPackOptionsCommand}"/>
         </MenuItem>
         <MenuItem Header="View">
             <MenuItem Header="Play" />

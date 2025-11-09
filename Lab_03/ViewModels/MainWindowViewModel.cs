@@ -16,6 +16,7 @@ namespace Lab_03.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        public DelegateCommand OpenPackOptionsCommand { get; }
         public DelegateCommand DeleteQuestionPackCommand { get; }
         public DelegateCommand OpenAddQuestionPackDialogCommand { get; }
         public DelegateCommand SetActivePackCommand { get; }
@@ -48,6 +49,7 @@ namespace Lab_03.ViewModels
             SetActivePackCommand = new DelegateCommand(SetActivePack);
             OpenAddQuestionPackDialogCommand = new DelegateCommand(OpenAddQuestionPackDialog);
             DeleteQuestionPackCommand = new DelegateCommand(DeleteQuestionPack);
+            OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions);
             //test
             /*string[] a = { "b", "c", "d" };
             string[] A = { "B", "C", "D" };
@@ -93,11 +95,17 @@ namespace Lab_03.ViewModels
             addQuestionPackDialog.ShowDialog();
         }
         private void DeleteQuestionPack (object? obj)
-        {MessageBoxResult result=MessageBox.Show("Are you sure you want to delete this question pack?", "Confirm Action", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+        {
+            MessageBoxResult result=MessageBox.Show("Are you sure you want to delete this question pack?", "Confirm Action", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
             if (result == MessageBoxResult.Yes)
             {
                 packs.Remove(ActivePack);
             }
+        }
+        private void OpenPackOptions (object? obj)
+        {
+            var packOptionsDialog = new PackOptionsDialog(this);
+            packOptionsDialog.ShowDialog();
         }
     }
 }

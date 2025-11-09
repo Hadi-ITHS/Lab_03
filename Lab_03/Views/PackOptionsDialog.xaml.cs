@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Lab_03.Models;
+using Lab_03.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,12 @@ namespace Lab_03.Views
     /// </summary>
     public partial class PackOptionsDialog : Window
     {
-        public PackOptionsDialog()
+        public MainWindowViewModel? _mainWindowViewModel { get; set; }
+        public PackOptionsDialog(MainWindowViewModel mainWindowViewModel)
         {
+            _mainWindowViewModel = mainWindowViewModel;
             InitializeComponent();
+            DataContext = _mainWindowViewModel;
         }
     }
 }

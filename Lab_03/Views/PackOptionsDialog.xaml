@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab_03.Views"
         mc:Ignorable="d"
-        Title="PackOptionsDialog" Height="250" Width="182" ResizeMode="NoResize">
+        Title="PackOptionsDialog" Height="250" Width="400" ResizeMode="NoResize">
     <Grid>
-
+        <StackPanel Orientation="Vertical">
+            <Label Content="Pack Name:" />
+            <TextBox Name="PackNameTextBox" Margin="5" Text="{Binding ActivePack.Name}"/>
+            <Label Content="Difficulty:" />
+            <ComboBox Name="DifficultyComboBox" Margin="5" SelectedIndex="{Binding ActivePack.Difficulty}">
+                <ComboBoxItem>Easy</ComboBoxItem>
+                <ComboBoxItem>Medium</ComboBoxItem>
+                <ComboBoxItem>Hard</ComboBoxItem>
+            </ComboBox>
+            <Label Content="Time Limit:" />
+            <Slider Name="TimeLimitSlider" TickPlacement="BottomRight" TickFrequency="5" Minimum="5" Maximum="120" Margin="5" IsSnapToTickEnabled="True"
+                    Value="{Binding ActivePack.TimeLimitInSeconds}"/>
+        </StackPanel>
     </Grid>
 </Window>
