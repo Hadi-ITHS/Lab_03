@@ -1,5 +1,7 @@
 ﻿using Lab_03.Commands;
 using Lab_03.Models;
+using Lab_03.Views;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,11 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Lab_03.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        public DelegateCommand DeleteQuestionPackCommand { get; }
+        public DelegateCommand OpenAddQuestionPackDialogCommand { get; }
         public DelegateCommand SetActivePackCommand { get; }
         public ObservableCollection<QuestionPackViewModel> packs { get; }
         private QuestionPackViewModel _activePack;
@@ -26,7 +31,6 @@ namespace Lab_03.ViewModels
                 _activePack = value;
                 RaisePropertyChanged();
                 UpdatePacks();
-                //PlayerViewModel.RaisePropertyChanged(nameof(ViewModels.PlayerViewModel.ActivePack));
             }
         }
         public MainWindowViewModel()
@@ -41,8 +45,9 @@ namespace Lab_03.ViewModels
                 ActivePack = packs[0];
             PlayerViewModel = new PlayerViewModel(this);
             ConfigurationViewModel = new ConfigurationViewModel(this);
-            
             SetActivePackCommand = new DelegateCommand(SetActivePack);
+            OpenAddQuestionPackDialogCommand = new DelegateCommand(OpenAddQuestionPackDialog);
+            DeleteQuestionPackCommand = new DelegateCommand(DeleteQuestionPack);
             //test
             /*string[] a = { "b", "c", "d" };
             string[] A = { "B", "C", "D" };
@@ -64,8 +69,6 @@ namespace Lab_03.ViewModels
             File.WriteAllText("Questions.json", json);*/
             //test
         }
-
-
         private void UpdatePacks()
         {
             for (int i = 0; i < packs.Count; i++)
@@ -82,6 +85,18 @@ namespace Lab_03.ViewModels
             if (obj is QuestionPackViewModel selectedPack)
             {
                 ActivePack = selectedPack;
+            }
+        }
+        private void OpenAddQuestionPackDialog (object? obj)
+        {
+            var addQuestionPackDialog = new AddQuestionPackDialog(this);
+            addQuestionPackDialog.ShowDialog();
+        }
+        private void DeleteQuestionPack (object? obj)
+        {MessageBoxResult result=MessageBox.Show("Are you sure you want to delete this question pack?", "Confirm Action", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+            if (result == MessageBoxResult.Yes)
+            {
+                packs.Remove(ActivePack);
             }
         }
     }

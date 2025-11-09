@@ -1,0 +1,27 @@
+﻿<Window x:Class="Lab_03.Views.AddQuestionPackDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab_03.Views"
+        mc:Ignorable="d"
+        Title="AddQuestionPackDialog" Height="250" Width="182" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label Content="Pack Name:" />
+            <TextBox Name="PackNameTextBox" Margin="5"/>
+            <Label Content="Difficulty:" />
+            <ComboBox Name="DifficultyComboBox" Margin="5" SelectedIndex="0">
+                <ComboBoxItem>Easy</ComboBoxItem>
+                <ComboBoxItem>Medium</ComboBoxItem>
+                <ComboBoxItem>Hard</ComboBoxItem>
+            </ComboBox>
+            <Label Content="Time Limit:" />
+            <Slider Name="TimeLimitSlider" TickPlacement="BottomRight" TickFrequency="5" Minimum="5" Maximum="120" Margin="5" IsSnapToTickEnabled="True"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Name="CancelButton" Content="Cancel" Margin="15" Padding="10 3" Click="CancelButton_Click"/>
+                <Button Name="CreateButton" Content="Create" Margin="15" Padding="10 3" Click="CreateButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

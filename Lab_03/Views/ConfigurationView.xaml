@@ -33,7 +33,13 @@
         <Button Name="PackOptions_Button" Content=" :: " Grid.Column="1" Margin="10"/>
         <Button Name="AddQuestion_Button" Content=" + " Grid.Column="2" Margin="10" Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
         <Button Name="RemoveQuestion_Button" Content=" - " Grid.Column="3" Margin="10" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}" />
-        <ListBox Name="ListOfQuestions" ItemsSource="{Binding ActivePack.Questions}" SelectedIndex="{Binding ConfigurationViewModel.SelectedIndex}" Grid.RowSpan="12" Grid.ColumnSpan="4" Grid.Row="1" Margin="10"/>
+        <ListBox Name="ListOfQuestions" ItemsSource="{Binding ActivePack.Questions}" SelectedIndex="{Binding ConfigurationViewModel.SelectedIndex}" Grid.RowSpan="12" Grid.ColumnSpan="4" Grid.Row="1" Margin="10">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Content"  Value="{Binding Querry}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
         <Label Content="Question:" Grid.Column="4" Grid.Row="1" Margin="10 0"/>
         <TextBox Name="Querry_Text" Text="{Binding ConfigurationViewModel.SelectedQuestion.Querry}" Grid.Column="4" Grid.Row="2" Margin="10 0"/>
         <Label Content="Correct Answer:" Grid.Column="4" Grid.Row="3" Margin="10 50 0 0"/>

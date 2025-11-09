@@ -54,7 +54,7 @@ namespace Lab_03.ViewModels
                 foreach (Question q in e.NewItems)
                     _model.Questions.Add(q);
             if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
-                foreach (Question q in e.NewItems)
+                foreach (Question q in e.OldItems)
                     _model.Questions.Remove(q);
             if (e.Action == NotifyCollectionChangedAction.Replace && e.NewItems != null && e.NewItems != null)
                 _model.Questions[e.OldStartingIndex] = (Question)e.NewItems[0]!;

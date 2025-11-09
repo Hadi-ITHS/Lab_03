@@ -14,7 +14,7 @@ namespace Lab_03.ViewModels
         public DelegateCommand AddQuestionCommand { get; }
         private List<QuestionPackViewModel> _allPacks = new List<QuestionPackViewModel>();
         private readonly MainWindowViewModel? _mainWindowViewModel;
-        public QuestionPackViewModel ActivePack { get; set; }
+        public QuestionPackViewModel ActivePack;
         private int _SelectedIndex;
         private Question _selectedQuestion;
         public List<QuestionPackViewModel> AllPacks
@@ -58,12 +58,11 @@ namespace Lab_03.ViewModels
         }
         private void RemoveQuestion(object? obj)
         {
-            ActivePack.Questions.Remove(SelectedQuestion);
+            _mainWindowViewModel.ActivePack.Questions.Remove(SelectedQuestion);
         }
         private void AddQuestion(object? obj)
         {
-            ActivePack.Questions.Add(new Question("New Question", "CorrectAnswer", new string[3] {null,null,null }));
+            _mainWindowViewModel.ActivePack.Questions.Add(new Question("New Question", "CorrectAnswer", new string[3] {null,null,null }));
         }
-
     }
 }
