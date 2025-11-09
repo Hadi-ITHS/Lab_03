@@ -4,14 +4,18 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab_03.Views"
+        xmlns:converters="clr-namespace:Lab_03.Converters"
         mc:Ignorable="d"
         Title="PackOptionsDialog" Height="250" Width="400" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical">
+            <StackPanel.Resources>
+                <converters:IntToDifficultyConverter x:Key="IntToDifficulty" />
+            </StackPanel.Resources>
             <Label Content="Pack Name:" />
             <TextBox Name="PackNameTextBox" Margin="5" Text="{Binding ActivePack.Name}"/>
             <Label Content="Difficulty:" />
-            <ComboBox Name="DifficultyComboBox" Margin="5" SelectedIndex="{Binding ActivePack.Difficulty}">
+            <ComboBox Name="DifficultyComboBox" Margin="5" SelectedIndex="{Binding ActivePack.Difficulty, Converter={StaticResource IntToDifficulty}}">
                 <ComboBoxItem>Easy</ComboBoxItem>
                 <ComboBoxItem>Medium</ComboBoxItem>
                 <ComboBoxItem>Hard</ComboBoxItem>
