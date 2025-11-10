@@ -6,16 +6,48 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace Lab_03.ViewModels
-{
+{   public enum PlayState { Playing, EndGame }
     public class PlayerViewModel : ViewModelBase
     {
+        private PlayState playState;
+        private int currentIndex = 0;
+        private DispatcherTimer dispatcherTimer;
         private string _questionCountDescription;
         private readonly MainWindowViewModel _mainWindowViewModel;
         private string[] answers;
-        public string CurrentQuerry { get; set; }
-        public string[] CurrentQuestion { get; set; }
+        private int _timer;
+        private string _currentQuerry;
+        private string[] _currentQuestion;
+        public string CurrentQuerry
+        {
+            get => _currentQuerry;
+            set
+            {
+                _currentQuerry = value;
+                RaisePropertyChanged();
+            }
+        }
+        public string[] CurrentQuestion
+        {
+            get => _currentQuestion;
+            set
+            {
+                _currentQuestion = value;
+                RaisePropertyChanged();
+            }
+        }
+        public int Timer 
+        {
+            get => _timer;
+            set
+            {
+                _timer = value;
+                RaisePropertyChanged();
+            }
+        }
         public string QuestionCountDescription
         {
             get => _questionCountDescription;
@@ -33,8 +65,40 @@ namespace Lab_03.ViewModels
         {
             _mainWindowViewModel = mainWindowViewModel;
             RandomizeQuestions();
-            CurrentQuestion = ActivePack.RandomizedQuestions[0];
-            CurrentQuerry = ActivePack.RandomizedQuerries[0];
+            CurrentQuestion = ActivePack.RandomizedQuestions[currentIndex];
+            CurrentQuerry = ActivePack.RandomizedQuerries[currentIndex];
+            Timer = ActivePack.TimeLimitInSeconds;
+            dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1f);
+            dispatcherTimer.Tick += Timer_Tick;
+            dispatcherTimer.Start();
+            playState = PlayState.Playing;
+        }
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            if (Timer > 0)
+                Timer--;
+            else
+            {
+                NextQuestion();
+                Timer = ActivePack.TimeLimitInSeconds;
+            }
+        }
+        private void NextQuestion ()
+        {
+            currentIndex++;
+            if (currentIndex < ActivePack.RandomizedQuestions.Count)
+            {
+                dispatcherTimer.Stop();
+                CurrentQuestion = ActivePack.RandomizedQuestions[currentIndex];
+                CurrentQuerry = ActivePack.RandomizedQuerries[currentIndex];
+                dispatcherTimer.Start();
+            }
+            else
+            { 
+                playState = PlayState.EndGame;
+                dispatcherTimer.Stop();
+            }
         }
         private void RandomizeQuestions()
         {

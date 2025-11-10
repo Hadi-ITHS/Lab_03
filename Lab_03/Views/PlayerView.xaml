@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Lab_03.Views"
              mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="850">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="1.5*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -21,13 +21,13 @@
             <RowDefinition Height="1.5*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="3" Grid.Row="0" Content="120" FontSize="40" HorizontalAlignment="Right" Margin="10"/>
+        <Label Grid.Column="3" Grid.Row="0" Content="{Binding PlayerViewModel.Timer}" FontSize="40" HorizontalAlignment="Right" Margin="10"/>
         <Label Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" Grid.ColumnSpan="2" Content="{Binding PlayerViewModel.CurrentQuerry}" FontSize="40" HorizontalAlignment="Center" Margin="10"/>
         <Label Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Center" Grid.ColumnSpan="2" Content="Question 2 of 10" FontSize="20" HorizontalAlignment="Center"/>
-        <Button  Grid.Row="3" Grid.Column="1" Content="{Binding PlayerViewModel.CurrentQuestion[0]}" FontSize="20" Margin="5" Width="188"/>
-        <Button  Grid.Row="3" Grid.Column="2" Content="{Binding PlayerViewModel.CurrentQuestion[1]}" FontSize="20" Margin="5" Width="188"/>
-        <Button  Grid.Row="4" Grid.Column="1" Content="{Binding PlayerViewModel.CurrentQuestion[2]}" FontSize="20" Margin="5" Width="188"/>
-        <Button  Grid.Row="4" Grid.Column="2" Content="{Binding PlayerViewModel.CurrentQuestion[3]}" FontSize="20" Margin="5" Width="188"/>
+        <Button  Grid.Row="3" Grid.Column="1" Content="{Binding PlayerViewModel.CurrentQuestion[0]}" FontSize="20" Margin="5 10" Width="188"/>
+        <Button  Grid.Row="3" Grid.Column="2" Content="{Binding PlayerViewModel.CurrentQuestion[1]}" FontSize="20" Margin="5 10 " Width="188"/>
+        <Button  Grid.Row="4" Grid.Column="1" Content="{Binding PlayerViewModel.CurrentQuestion[2]}" FontSize="20" Margin="5 10" Width="188"/>
+        <Button  Grid.Row="4" Grid.Column="2" Content="{Binding PlayerViewModel.CurrentQuestion[3]}" FontSize="20" Margin="5 10" Width="188"/>
 
     </Grid>
 </UserControl>
