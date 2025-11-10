@@ -9,17 +9,24 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Lab_03.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        public DelegateCommand ExitCommand { get; }
         public DelegateCommand OpenPackOptionsCommand { get; }
         public DelegateCommand DeleteQuestionPackCommand { get; }
         public DelegateCommand OpenAddQuestionPackDialogCommand { get; }
         public DelegateCommand SetActivePackCommand { get; }
+        public ConfigurationView ConfigurationView { get; }
+        public MainWindow MainWindow { get;}
+        public PlayerView PlayerView { get; }
+        public UserControl ActiveView { get; set; }
         public ObservableCollection<QuestionPackViewModel> packs { get; }
         private QuestionPackViewModel _activePack;
         public PlayerViewModel? PlayerViewModel { get;}
@@ -34,7 +41,7 @@ namespace Lab_03.ViewModels
                 UpdatePacks();
             }
         }
-        public MainWindowViewModel()
+        public MainWindowViewModel(MainWindow mainWindow)
         {
             packs = new ObservableCollection<QuestionPackViewModel>();
             List<QuestionPack> importedPacks = JsonSerializer.Deserialize<List<QuestionPack>>(File.ReadAllText(("Questions.json")));
@@ -44,12 +51,17 @@ namespace Lab_03.ViewModels
             }
             if (packs.Count > 0)
                 ActivePack = packs[0];
+            MainWindow = mainWindow;
+            PlayerView = new PlayerView();
+            ConfigurationView = new ConfigurationView();
             PlayerViewModel = new PlayerViewModel(this);
             ConfigurationViewModel = new ConfigurationViewModel(this);
             SetActivePackCommand = new DelegateCommand(SetActivePack);
             OpenAddQuestionPackDialogCommand = new DelegateCommand(OpenAddQuestionPackDialog);
             DeleteQuestionPackCommand = new DelegateCommand(DeleteQuestionPack);
             OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions);
+            ExitCommand = new DelegateCommand(Exit);
+            ActiveView = ConfigurationView;
             //test
             /*string[] a = { "b", "c", "d" };
             string[] A = { "B", "C", "D" };
@@ -106,6 +118,24 @@ namespace Lab_03.ViewModels
         {
             var packOptionsDialog = new PackOptionsDialog(this);
             packOptionsDialog.ShowDialog();
+        }
+        /*private void HandleActiveView (UserControl view)
+        {
+            MainWindow.
+        }*/
+        private void ShowPlayerView (object? obj)
+        {
+            ActiveView = PlayerView;
+            //HandleActiveView(ActiveView);
+        }
+        private void ShowConfigurationView(object? obj)
+        {
+            ActiveView = ConfigurationView;
+            //HandleActiveView(ActiveView);
+        }
+        private void Exit (object? obj)
+        {
+            UpdatePacks();
         }
     }
 }

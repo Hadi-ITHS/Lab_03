@@ -22,7 +22,7 @@
             <Separator />
             <MenuItem Header="Import Questions" />
             <Separator />
-            <MenuItem Header="E_xit" />
+            <MenuItem Header="E_xit" Command="{Binding ExitCommand}"/>
         </MenuItem>
         <MenuItem Header="Edit">
             <MenuItem Header="Add Question" Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
