@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Lab_03.ViewModels
@@ -15,7 +16,8 @@ namespace Lab_03.ViewModels
     {
         public int Points { get; set; }
         private PlayState playState;
-        private int currentIndex = 0;
+        public int currentIndex = 0;
+        public bool IsAnswerChosen { get; set; }
         private DispatcherTimer dispatcherTimer;
         private string _questionCountDescription;
         private readonly MainWindowViewModel _mainWindowViewModel;
@@ -93,7 +95,14 @@ namespace Lab_03.ViewModels
         private void Timer_Tick(object? sender, EventArgs e)
         {
             if (TimeLimit > 0)
+            {
                 TimeLimit--;
+                if (IsAnswerChosen)
+                {
+                    Thread.Sleep(1000);
+                    NextQuestion();
+                }
+            }
             else
             {
                 NextQuestion();
@@ -101,9 +110,11 @@ namespace Lab_03.ViewModels
         }
         public void NextQuestion ()
         {
+            ResetButtonColors();
+            IsAnswerChosen = false;
             if (ValidateAnswer())
                 Points++;
-            if (currentIndex < ActivePack.Questions.Count-1)
+            if (currentIndex < ActivePack.Questions.Count - 1)
             {
                 TimeLimit = ActivePack.TimeLimitInSeconds;
                 currentIndex++;
@@ -144,6 +155,13 @@ namespace Lab_03.ViewModels
                 return true;
             else
                 return false;
+        }
+        private void ResetButtonColors()
+        {
+            _mainWindowViewModel.PlayerView.Button0.Background = Brushes.LightGray;
+            _mainWindowViewModel.PlayerView.Button1.Background = Brushes.LightGray;
+            _mainWindowViewModel.PlayerView.Button2.Background = Brushes.LightGray;
+            _mainWindowViewModel.PlayerView.Button3.Background = Brushes.LightGray;
         }
     }
 }
