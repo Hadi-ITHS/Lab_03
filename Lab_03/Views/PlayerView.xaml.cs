@@ -21,31 +21,35 @@ namespace Lab_03.Views
     /// </summary>
     public partial class PlayerView : UserControl
     {
-        private MainWindowViewModel _mainWindowViewModel;
-        public PlayerView()
+        private PlayerViewModel _playerViewmodel;
+        public PlayerView(PlayerViewModel playerViewmodel)
         {
-            //_mainWindowViewModel = mainWindowViewModel;
+            _playerViewmodel = playerViewmodel;
             InitializeComponent();
         }
 
         private void Button0_Click(object sender, RoutedEventArgs e)
         {
-
+            _playerViewmodel.ChosenAnswer = Button0.Content?.ToString();
+            _playerViewmodel.NextQuestion();
         }
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-
+            _playerViewmodel.ChosenAnswer = Button1.Content?.ToString();
+            _playerViewmodel.NextQuestion();
         }
 
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
-
+            _playerViewmodel.ChosenAnswer = Button2.Content?.ToString();
+            _playerViewmodel.NextQuestion();
         }
 
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
-
+            _playerViewmodel.ChosenAnswer = Button3.Content?.ToString();
+            _playerViewmodel.NextQuestion();
         }
     }
 }

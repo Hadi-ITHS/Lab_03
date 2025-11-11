@@ -13,7 +13,7 @@ namespace Lab_03.ViewModels
 {   public enum PlayState { Playing, EndGame }
     public class PlayerViewModel : ViewModelBase
     {
-        private bool isPlayerViewActive = false;
+        public int Points { get; set; }
         private PlayState playState;
         private int currentIndex = 0;
         private DispatcherTimer dispatcherTimer;
@@ -23,6 +23,7 @@ namespace Lab_03.ViewModels
         private int _timer;
         private string _currentQuerry;
         private string[] _currentQuestion;
+        public string ChosenAnswer { get; set; }
         public string CurrentQuerry
         {
             get => _currentQuerry;
@@ -69,20 +70,24 @@ namespace Lab_03.ViewModels
         }
         public void StartQuiz ()
         {
-            RandomizeQuestions();
-            CurrentQuestion = ActivePack.RandomizedQuestions[currentIndex];
-            CurrentQuerry = ActivePack.RandomizedQuerries[currentIndex];
-            TimeLimit = ActivePack.TimeLimitInSeconds;
-            dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(1f);
-            dispatcherTimer.Tick += Timer_Tick;
-            dispatcherTimer.Start();
-            playState = PlayState.Playing;
-
+            if (ActivePack.Questions.Count > 0)
+            {
+                QuestionCountDescription = $"Question {currentIndex+1} of {ActivePack.Questions.Count}";
+                currentIndex = 0;
+                RandomizeQuestions();
+                CurrentQuestion = ActivePack.RandomizedQuestions[currentIndex];
+                CurrentQuerry = ActivePack.RandomizedQuerries[currentIndex];
+                TimeLimit = ActivePack.TimeLimitInSeconds;
+                dispatcherTimer = new DispatcherTimer();
+                dispatcherTimer.Interval = TimeSpan.FromSeconds(1f);
+                dispatcherTimer.Tick += Timer_Tick;
+                dispatcherTimer.Start();
+                playState = PlayState.Playing;
+            }
         }
         public void StopQuiz ()
         {
-            dispatcherTimer.Stop();
+            dispatcherTimer?.Stop();
             playState = PlayState.EndGame;
         }
         private void Timer_Tick(object? sender, EventArgs e)
@@ -92,21 +97,24 @@ namespace Lab_03.ViewModels
             else
             {
                 NextQuestion();
-                TimeLimit = ActivePack.TimeLimitInSeconds;
             }
         }
-        private void NextQuestion ()
+        public void NextQuestion ()
         {
-            currentIndex++;
-            if (currentIndex < ActivePack.RandomizedQuestions.Count)
+            if (ValidateAnswer())
+                Points++;
+            if (currentIndex < ActivePack.Questions.Count-1)
             {
+                TimeLimit = ActivePack.TimeLimitInSeconds;
+                currentIndex++;
+                QuestionCountDescription = $"Question {currentIndex + 1} of {ActivePack.Questions.Count}";
                 dispatcherTimer.Stop();
                 CurrentQuestion = ActivePack.RandomizedQuestions[currentIndex];
                 CurrentQuerry = ActivePack.RandomizedQuerries[currentIndex];
                 dispatcherTimer.Start();
             }
             else
-            { 
+            {
                 playState = PlayState.EndGame;
                 dispatcherTimer.Stop();
             }
@@ -126,8 +134,16 @@ namespace Lab_03.ViewModels
         private string[] RandomizeAnswers(Question currentQuestion)
         {
             answers = new string[4] { currentQuestion.CorrectAnswer, currentQuestion.IncorrectAnswers[0], currentQuestion.IncorrectAnswers[1], currentQuestion.IncorrectAnswers[2] };
+            ActivePack.RandomizedCorrectAnswers.Add(currentQuestion.CorrectAnswer);
             Random.Shared.Shuffle(answers);
             return answers;
+        }
+        private bool ValidateAnswer()
+        {
+            if (ChosenAnswer == ActivePack.RandomizedCorrectAnswers[currentIndex])
+                return true;
+            else
+                return false;
         }
     }
 }

@@ -42,6 +42,7 @@ namespace Lab_03.ViewModels
         public ObservableCollection<Question> Questions { get; set; }
         public List<string[]> RandomizedQuestions { get; set; }
         public List<string> RandomizedQuerries { get; set; }
+        public List<string> RandomizedCorrectAnswers { get; set; }
         public QuestionPackViewModel(QuestionPack model)
         {
             _model = model;
@@ -49,6 +50,7 @@ namespace Lab_03.ViewModels
             Questions.CollectionChanged += Questions_CollectionChanged;
             RandomizedQuestions = new List<string[]>();
             RandomizedQuerries = new List<string>();
+            RandomizedCorrectAnswers = new List<string>();
         }
 
         private void Questions_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

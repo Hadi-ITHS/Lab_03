@@ -26,6 +26,8 @@ namespace Lab_03.ViewModels
         public DelegateCommand OpenAddQuestionPackDialogCommand { get; }
         public DelegateCommand SetActivePackCommand { get; }
         public MainWindow MainWindow { get; set; }
+        public PlayerView PlayerView { get; set; }
+        public ConfigurationView ConfigurationView { get; set; }
         public UserControl ActiveView { get; set; }
         public ObservableCollection<QuestionPackViewModel> packs { get; }
         private QuestionPackViewModel _activePack;
@@ -129,7 +131,8 @@ namespace Lab_03.ViewModels
         {
             PlayerViewModel.StartQuiz();
             MainWindow.Grid.Children.Remove(ActiveView);
-            ActiveView = new PlayerView();
+            PlayerView = new PlayerView(PlayerViewModel);
+            ActiveView = PlayerView;
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
         }
@@ -137,7 +140,8 @@ namespace Lab_03.ViewModels
         {
             PlayerViewModel.StopQuiz();
             MainWindow.Grid.Children.Remove(ActiveView);
-            ActiveView = new ConfigurationView();
+            ConfigurationView = new ConfigurationView();
+            ActiveView = ConfigurationView;
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
         }
