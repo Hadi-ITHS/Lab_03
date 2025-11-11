@@ -27,6 +27,7 @@ namespace Lab_03.ViewModels
         public DelegateCommand SetActivePackCommand { get; }
         public MainWindow MainWindow { get; set; }
         public PlayerView PlayerView { get; set; }
+        public GameOverView GameOverView { get; set; }
         public ConfigurationView ConfigurationView { get; set; }
         public UserControl ActiveView { get; set; }
         public ObservableCollection<QuestionPackViewModel> packs { get; }
@@ -136,9 +137,17 @@ namespace Lab_03.ViewModels
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
         }
+        public void ShowGameOverView()
+        {
+            MainWindow.Grid.Children.Remove(ActiveView);
+            GameOverView = new GameOverView();
+            ActiveView = GameOverView;
+            Grid.SetRow(ActiveView, 1);
+            MainWindow.Grid.Children.Add(ActiveView);
+        }
         private void ShowConfigurationView(object? obj)
         {
-            PlayerViewModel.StopQuiz();
+            PlayerViewModel.EndGame();
             MainWindow.Grid.Children.Remove(ActiveView);
             ConfigurationView = new ConfigurationView();
             ActiveView = ConfigurationView;
@@ -151,3 +160,10 @@ namespace Lab_03.ViewModels
         }
     }
 }
+
+/*TODO:
+ * Disable Select Question Pack during play
+ * Disable Delete Question Pack during play
+ * Disable New Question Pack during play
+ * Disable all submenus in Edit menu
+ */

@@ -25,6 +25,7 @@ namespace Lab_03.ViewModels
         private int _timer;
         private string _currentQuerry;
         private string[] _currentQuestion;
+        public string GameOverViewText { get; set; }
         public string ChosenAnswer { get; set; }
         public string CurrentQuerry
         {
@@ -74,6 +75,7 @@ namespace Lab_03.ViewModels
         {
             if (ActivePack.Questions.Count > 0)
             {
+                Points = 0;
                 QuestionCountDescription = $"Question {currentIndex+1} of {ActivePack.Questions.Count}";
                 currentIndex = 0;
                 RandomizeQuestions();
@@ -86,11 +88,6 @@ namespace Lab_03.ViewModels
                 dispatcherTimer.Start();
                 playState = PlayState.Playing;
             }
-        }
-        public void StopQuiz ()
-        {
-            dispatcherTimer?.Stop();
-            playState = PlayState.EndGame;
         }
         private void Timer_Tick(object? sender, EventArgs e)
         {
@@ -126,14 +123,21 @@ namespace Lab_03.ViewModels
             }
             else
             {
-                playState = PlayState.EndGame;
-                dispatcherTimer.Stop();
+                EndGame();
+                _mainWindowViewModel.ShowGameOverView();
             }
+        }
+        public void EndGame()
+        {
+            dispatcherTimer.Stop();
+            GameOverViewText = $"You got {Points} out of {ActivePack.Questions.Count} answers correct!";
+            playState = PlayState.EndGame;
         }
         private void RandomizeQuestions()
         {
             ActivePack.RandomizedQuestions.Clear();
             ActivePack.RandomizedQuerries.Clear();
+            ActivePack.RandomizedCorrectAnswers.Clear();
             Question[] randomizedQuestions = ActivePack.Questions.ToArray();
             Random.Shared.Shuffle(randomizedQuestions);
             for (int i = 0; i < randomizedQuestions.Length; i++)
