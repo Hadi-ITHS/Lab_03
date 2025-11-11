@@ -7,15 +7,15 @@
         xmlns:views="clr-namespace:Lab_03.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid Name="Grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <views:MenuView Grid.Row="0" />
-        <views:PlayerView Grid.Row="1" />
+
         <!--
-        
+                <views:PlayerView Grid.Row="1" />
         <views:ConfigurationView Grid.Row="1" />
         -->
     </Grid>

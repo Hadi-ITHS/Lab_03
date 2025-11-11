@@ -1,5 +1,6 @@
 ﻿using Lab_03.Commands;
 using Lab_03.Models;
+using Lab_03.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@ namespace Lab_03.ViewModels
 {   public enum PlayState { Playing, EndGame }
     public class PlayerViewModel : ViewModelBase
     {
+        private bool isPlayerViewActive = false;
         private PlayState playState;
         private int currentIndex = 0;
         private DispatcherTimer dispatcherTimer;
@@ -39,7 +41,7 @@ namespace Lab_03.ViewModels
                 RaisePropertyChanged();
             }
         }
-        public int Timer 
+        public int TimeLimit 
         {
             get => _timer;
             set
@@ -64,24 +66,33 @@ namespace Lab_03.ViewModels
         public PlayerViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
+        }
+        public void StartQuiz ()
+        {
             RandomizeQuestions();
             CurrentQuestion = ActivePack.RandomizedQuestions[currentIndex];
             CurrentQuerry = ActivePack.RandomizedQuerries[currentIndex];
-            Timer = ActivePack.TimeLimitInSeconds;
+            TimeLimit = ActivePack.TimeLimitInSeconds;
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Interval = TimeSpan.FromSeconds(1f);
             dispatcherTimer.Tick += Timer_Tick;
             dispatcherTimer.Start();
             playState = PlayState.Playing;
+
+        }
+        public void StopQuiz ()
+        {
+            dispatcherTimer.Stop();
+            playState = PlayState.EndGame;
         }
         private void Timer_Tick(object? sender, EventArgs e)
         {
-            if (Timer > 0)
-                Timer--;
+            if (TimeLimit > 0)
+                TimeLimit--;
             else
             {
                 NextQuestion();
-                Timer = ActivePack.TimeLimitInSeconds;
+                TimeLimit = ActivePack.TimeLimitInSeconds;
             }
         }
         private void NextQuestion ()
@@ -102,6 +113,8 @@ namespace Lab_03.ViewModels
         }
         private void RandomizeQuestions()
         {
+            ActivePack.RandomizedQuestions.Clear();
+            ActivePack.RandomizedQuerries.Clear();
             Question[] randomizedQuestions = ActivePack.Questions.ToArray();
             Random.Shared.Shuffle(randomizedQuestions);
             for (int i = 0; i < randomizedQuestions.Length; i++)

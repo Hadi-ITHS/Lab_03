@@ -18,14 +18,14 @@ namespace Lab_03.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        public DelegateCommand ShowPlayerViewCommand { get; }
+        public DelegateCommand ShowConfigurationViewCommand { get; }
         public DelegateCommand ExitCommand { get; }
         public DelegateCommand OpenPackOptionsCommand { get; }
         public DelegateCommand DeleteQuestionPackCommand { get; }
         public DelegateCommand OpenAddQuestionPackDialogCommand { get; }
         public DelegateCommand SetActivePackCommand { get; }
-        public ConfigurationView ConfigurationView { get; }
-        public MainWindow MainWindow { get;}
-        public PlayerView PlayerView { get; }
+        public MainWindow MainWindow { get; set; }
         public UserControl ActiveView { get; set; }
         public ObservableCollection<QuestionPackViewModel> packs { get; }
         private QuestionPackViewModel _activePack;
@@ -52,8 +52,6 @@ namespace Lab_03.ViewModels
             if (packs.Count > 0)
                 ActivePack = packs[0];
             MainWindow = mainWindow;
-            PlayerView = new PlayerView();
-            ConfigurationView = new ConfigurationView();
             PlayerViewModel = new PlayerViewModel(this);
             ConfigurationViewModel = new ConfigurationViewModel(this);
             SetActivePackCommand = new DelegateCommand(SetActivePack);
@@ -61,7 +59,11 @@ namespace Lab_03.ViewModels
             DeleteQuestionPackCommand = new DelegateCommand(DeleteQuestionPack);
             OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions);
             ExitCommand = new DelegateCommand(Exit);
-            ActiveView = ConfigurationView;
+            ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
+            ShowPlayerViewCommand = new DelegateCommand(ShowPlayerView);
+            ActiveView = new ConfigurationView();
+            Grid.SetRow(ActiveView, 1);
+            MainWindow.Grid.Children.Add(ActiveView);
             //test
             /*string[] a = { "b", "c", "d" };
             string[] A = { "B", "C", "D" };
@@ -125,13 +127,19 @@ namespace Lab_03.ViewModels
         }*/
         private void ShowPlayerView (object? obj)
         {
-            ActiveView = PlayerView;
-            //HandleActiveView(ActiveView);
+            PlayerViewModel.StartQuiz();
+            MainWindow.Grid.Children.Remove(ActiveView);
+            ActiveView = new PlayerView();
+            Grid.SetRow(ActiveView, 1);
+            MainWindow.Grid.Children.Add(ActiveView);
         }
         private void ShowConfigurationView(object? obj)
         {
-            ActiveView = ConfigurationView;
-            //HandleActiveView(ActiveView);
+            PlayerViewModel.StopQuiz();
+            MainWindow.Grid.Children.Remove(ActiveView);
+            ActiveView = new ConfigurationView();
+            Grid.SetRow(ActiveView, 1);
+            MainWindow.Grid.Children.Add(ActiveView);
         }
         private void Exit (object? obj)
         {

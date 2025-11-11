@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lab_03.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,31 @@ namespace Lab_03.Views
     /// </summary>
     public partial class PlayerView : UserControl
     {
+        private MainWindowViewModel _mainWindowViewModel;
         public PlayerView()
         {
+            //_mainWindowViewModel = mainWindowViewModel;
             InitializeComponent();
+        }
+
+        private void Button0_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button2_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button3_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
