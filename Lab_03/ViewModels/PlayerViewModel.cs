@@ -87,6 +87,7 @@ namespace Lab_03.ViewModels
                 dispatcherTimer.Tick += Timer_Tick;
                 dispatcherTimer.Start();
                 playState = PlayState.Playing;
+                PlayingStateChanged();
             }
         }
         private void Timer_Tick(object? sender, EventArgs e)
@@ -132,6 +133,7 @@ namespace Lab_03.ViewModels
             dispatcherTimer?.Stop();
             GameOverViewText = $"You got {Points} out of {ActivePack.Questions.Count} answers correct!";
             playState = PlayState.EndGame;
+            PlayingStateChanged();
         }
         private void RandomizeQuestions()
         {
@@ -166,6 +168,14 @@ namespace Lab_03.ViewModels
             _mainWindowViewModel.PlayerView.Button1.Background = Brushes.LightGray;
             _mainWindowViewModel.PlayerView.Button2.Background = Brushes.LightGray;
             _mainWindowViewModel.PlayerView.Button3.Background = Brushes.LightGray;
+        }
+        private void PlayingStateChanged()
+        {
+            _mainWindowViewModel.ConfigurationViewModel.AddQuestionCommand.RaiseCanExecuteChanged();
+            _mainWindowViewModel.ConfigurationViewModel.RemoveQuestionCommand.RaiseCanExecuteChanged();
+            _mainWindowViewModel.ConfigurationViewModel.OpenPackOptionsCommand.RaiseCanExecuteChanged();
+            _mainWindowViewModel.ShowConfigurationViewCommand.RaiseCanExecuteChanged();
+            _mainWindowViewModel.ShowPlayerViewCommand.RaiseCanExecuteChanged();
         }
     }
 }

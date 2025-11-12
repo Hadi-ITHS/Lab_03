@@ -65,8 +65,8 @@ namespace Lab_03.ViewModels
             OpenAddQuestionPackDialogCommand = new DelegateCommand(OpenAddQuestionPackDialog);
             DeleteQuestionPackCommand = new DelegateCommand(DeleteQuestionPack);
             ExitCommand = new DelegateCommand(Exit);
-            ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
-            ShowPlayerViewCommand = new DelegateCommand(ShowPlayerView);
+            ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView, CanShowConfigurationView);
+            ShowPlayerViewCommand = new DelegateCommand(ShowPlayerView, CanShowPlayerView);
             FullscreenCommand = new DelegateCommand(FullScreen);
             mainWindow.Closing += (s, e) => OnClosing(e);
             ActiveView = ConfigurationView;
@@ -94,6 +94,7 @@ namespace Lab_03.ViewModels
             if (obj is QuestionPackViewModel selectedPack && PlayerViewModel.playState != PlayState.Playing)
             {
                 ActivePack = selectedPack;
+                ShowPlayerViewCommand.RaiseCanExecuteChanged();
                 if (ActivePack.Questions.Count > 0)
                     ConfigurationViewModel.SelectedIndex = 0;
                 else
@@ -138,6 +139,20 @@ namespace Lab_03.ViewModels
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
         }
+        private bool CanShowPlayerView (object? obj)
+        {
+            if (PlayerViewModel.playState == PlayState.Playing || ActivePack.Questions.Count <= 0)
+                return false;
+            else
+                return true;
+        }
+        private bool CanShowConfigurationView(object? obj)
+        {
+            if (PlayerViewModel.playState == PlayState.NotPlaying)
+                return false;
+            else
+                return true;
+        }
         public void ShowGameOverView()
         {
             MainWindow.Grid.Children.Remove(ActiveView);
@@ -150,6 +165,7 @@ namespace Lab_03.ViewModels
         {
             PlayerViewModel.EndGame();
             PlayerViewModel.playState = PlayState.NotPlaying;
+            PlayingStateChanged();
             MainWindow.Grid.Children.Remove(ActiveView);
             ConfigurationView = new ConfigurationView();
             ActiveView = ConfigurationView;
@@ -164,13 +180,18 @@ namespace Lab_03.ViewModels
         {
             MainWindow.WindowState = WindowState.Maximized;
         }
+        private void PlayingStateChanged()
+        {
+            ConfigurationViewModel.AddQuestionCommand.RaiseCanExecuteChanged();
+            ConfigurationViewModel.RemoveQuestionCommand.RaiseCanExecuteChanged();
+            ConfigurationViewModel.OpenPackOptionsCommand.RaiseCanExecuteChanged();
+            ShowConfigurationViewCommand.RaiseCanExecuteChanged();
+            ShowPlayerViewCommand.RaiseCanExecuteChanged();
+        }
     }
 }
 
 /*TODO:
- * Disable all submenus in Edit menu during play
- * While playing, the play menu should be disabled
- * The game should not be started if a question pack is empty
  * Json file should be created in the desired path in
  * Design and resizability
  * Icons from FontAwesome

@@ -57,9 +57,9 @@ namespace Lab_03.ViewModels
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
-            RemoveQuestionCommand = new DelegateCommand(RemoveQuestion);
-            AddQuestionCommand = new DelegateCommand(AddQuestion);
-            OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions);
+            RemoveQuestionCommand = new DelegateCommand(RemoveQuestion, CanRemoveQuestion);
+            AddQuestionCommand = new DelegateCommand(AddQuestion, CanAddQuestion);
+            OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions, CanOpenPackOptions);
             SelectedIndex = 0;
             /*if (ActivePack.Questions.Count > 0)
                 _mainWindowViewModel.ConfigurationView.ListOfQuestions.SelectedIndex = 0;*/
@@ -78,6 +78,27 @@ namespace Lab_03.ViewModels
         {
             ActivePack.Questions.Add(new Question("New Question", "CorrectAnswer", new string[3] {null,null,null }));
             SelectedIndex = ActivePack.Questions.Count-1;
+        }
+        private bool CanAddQuestion(object? obj)
+        {
+            if (_mainWindowViewModel.PlayerViewModel.playState == PlayState.Playing)
+                return false;
+            else
+                return true;
+        }
+        private bool CanRemoveQuestion(object? obj)
+        {
+            if (_mainWindowViewModel.PlayerViewModel.playState == PlayState.Playing)
+                return false;
+            else
+                return true;
+        }
+        private bool CanOpenPackOptions(object? obj)
+        {
+            if (_mainWindowViewModel.PlayerViewModel.playState == PlayState.Playing)
+                return false;
+            else
+                return true;
         }
     }
 }
