@@ -193,6 +193,8 @@ namespace Lab_03.ViewModels
 
 /*TODO:
  * Json file should be created in the desired path in
+ * Read and Write in Json should be Async
+ * Keyboard shortcuts should be added to menu
  * Design and resizability
  * Icons from FontAwesome
  */

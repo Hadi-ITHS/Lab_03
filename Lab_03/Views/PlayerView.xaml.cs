@@ -34,6 +34,7 @@ namespace Lab_03.Views
         private void Button0_Click(object sender, RoutedEventArgs e)
         {
             _playerViewmodel.ChosenAnswer = Button0.Content?.ToString();
+            Button0.Background = Brushes.DarkRed;
             RevealCorrectAnswer();
             _playerViewmodel.IsAnswerChosen = true;
         }
@@ -41,6 +42,7 @@ namespace Lab_03.Views
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             _playerViewmodel.ChosenAnswer = Button1.Content?.ToString();
+            Button1.Background = Brushes.DarkRed;
             RevealCorrectAnswer();
             _playerViewmodel.IsAnswerChosen = true;
         }
@@ -48,6 +50,7 @@ namespace Lab_03.Views
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
             _playerViewmodel.ChosenAnswer = Button2.Content?.ToString();
+            Button2.Background = Brushes.DarkRed;
             RevealCorrectAnswer();
             _playerViewmodel.IsAnswerChosen = true;
         }
@@ -55,6 +58,7 @@ namespace Lab_03.Views
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
             _playerViewmodel.ChosenAnswer = Button3.Content?.ToString();
+            Button3.Background = Brushes.DarkRed;
             RevealCorrectAnswer();
             _playerViewmodel.IsAnswerChosen = true;
         }
@@ -63,29 +67,17 @@ namespace Lab_03.Views
             if (Button0.Content != null && Button0.Content == CorrectAnswer)
             {
                 Button0.Background = Brushes.DarkOliveGreen;
-                Button1.Background = Brushes.DarkRed;
-                Button2.Background = Brushes.DarkRed;
-                Button3.Background = Brushes.DarkRed;
             }
             else if (Button1.Content != null && Button1.Content == CorrectAnswer)
             {
-                Button0.Background = Brushes.DarkRed;
                 Button1.Background = Brushes.DarkOliveGreen;
-                Button2.Background = Brushes.DarkRed;
-                Button3.Background = Brushes.DarkRed;
             }
             else if (Button2.Content != null && Button2.Content == CorrectAnswer)
             {
-                Button0.Background = Brushes.DarkRed;
-                Button1.Background = Brushes.DarkRed;
                 Button2.Background = Brushes.DarkOliveGreen;
-                Button3.Background = Brushes.DarkRed;
             }
             else if (Button3.Content != null && Button3.Content == CorrectAnswer)
             {
-                Button0.Background = Brushes.DarkRed;
-                Button1.Background = Brushes.DarkRed;
-                Button2.Background = Brushes.DarkRed;
                 Button3.Background = Brushes.DarkOliveGreen;
             }
         }
