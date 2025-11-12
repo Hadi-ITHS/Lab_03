@@ -58,6 +58,7 @@ namespace Lab_03.ViewModels
             if (packs.Count > 0)
                 ActivePack = packs[0];
             MainWindow = mainWindow;
+            ConfigurationView = new ConfigurationView();
             PlayerViewModel = new PlayerViewModel(this);
             ConfigurationViewModel = new ConfigurationViewModel(this);
             SetActivePackCommand = new DelegateCommand(SetActivePack);
@@ -68,7 +69,7 @@ namespace Lab_03.ViewModels
             ShowPlayerViewCommand = new DelegateCommand(ShowPlayerView);
             FullscreenCommand = new DelegateCommand(FullScreen);
             mainWindow.Closing += (s, e) => OnClosing(e);
-            ActiveView = new ConfigurationView();
+            ActiveView = ConfigurationView;
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
         }
@@ -99,6 +100,11 @@ namespace Lab_03.ViewModels
         {
             var addQuestionPackDialog = new AddQuestionPackDialog(this);
             addQuestionPackDialog.ShowDialog();
+            if ((bool)addQuestionPackDialog.DialogResult)
+            {
+                ActivePack = packs[packs.Count - 1];
+                ConfigurationViewModel.SelectedQuestion = null;
+            }
         }
         private void DeleteQuestionPack (object? obj)
         {
@@ -106,6 +112,11 @@ namespace Lab_03.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 packs.Remove(ActivePack);
+                ActivePack = packs[0];
+                if (ActivePack.Questions.Count > 0)
+                    ConfigurationViewModel.SelectedIndex = 0;
+                else
+                    ConfigurationViewModel.SelectedIndex = -1;
             }
         }
         private void ShowPlayerView (object? obj)
@@ -153,10 +164,6 @@ namespace Lab_03.ViewModels
  * When ConfigurationView is shown, The first question of the active pack should be chosen in the listBox
  * Bindings should happen when property is changed
  * active pack is changed in config view, The first question of the active pack should be chosen in the listBox
- * When a new question pack is added, it should get activated
- * When a questin pack is deleted, The first pack should be activated
- * When a question is deleted, either the first question should be chosen or the one before the deleted one
- * When a question is added, it should be selected in the list box
  * Json file should be created in the desired path in
  * What is wrong with the timer?
  * After an answer is chosen, focus on buttons should not be possible

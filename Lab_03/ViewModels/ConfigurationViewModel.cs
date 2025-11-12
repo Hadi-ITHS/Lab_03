@@ -40,7 +40,7 @@ namespace Lab_03.ViewModels
                 _SelectedIndex = value;
                 RaisePropertyChanged();
                 if (value >= 0)
-                    SelectedQuestion = _mainWindowViewModel.ActivePack.Questions[SelectedIndex];
+                    SelectedQuestion = ActivePack.Questions[SelectedIndex];
             }
         }
         public Question SelectedQuestion
@@ -50,18 +50,19 @@ namespace Lab_03.ViewModels
             {
                 _selectedQuestion = value;
                 RaisePropertyChanged();
-                ActivePack.Questions[SelectedIndex] = value;
+                if (_selectedQuestion != null)
+                    ActivePack.Questions[SelectedIndex] = value;
             }
         }
-
-        
-
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
             RemoveQuestionCommand = new DelegateCommand(RemoveQuestion);
             AddQuestionCommand = new DelegateCommand(AddQuestion);
             OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions);
+            SelectedIndex = 0;
+            /*if (ActivePack.Questions.Count > 0)
+                _mainWindowViewModel.ConfigurationView.ListOfQuestions.SelectedIndex = 0;*/
         }
         private void OpenPackOptions(object? obj)
         {
@@ -70,11 +71,13 @@ namespace Lab_03.ViewModels
         }
         private void RemoveQuestion(object? obj)
         {
-            _mainWindowViewModel.ActivePack.Questions.Remove(SelectedQuestion);
+            ActivePack.Questions.Remove(SelectedQuestion);
+            SelectedIndex = ActivePack.Questions.Count - 1;
         }
         private void AddQuestion(object? obj)
         {
-            _mainWindowViewModel.ActivePack.Questions.Add(new Question("New Question", "CorrectAnswer", new string[3] {null,null,null }));
+            ActivePack.Questions.Add(new Question("New Question", "CorrectAnswer", new string[3] {null,null,null }));
+            SelectedIndex = ActivePack.Questions.Count-1;
         }
     }
 }
