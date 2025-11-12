@@ -22,7 +22,7 @@ namespace Lab_03.Views
     public partial class PackOptionsDialog : Window
     {
         public MainWindowViewModel? _mainWindowViewModel { get; set; }
-        public PackOptionsDialog(MainWindowViewModel mainWindowViewModel)
+        public PackOptionsDialog(MainWindowViewModel? mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
             InitializeComponent();

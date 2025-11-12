@@ -27,12 +27,12 @@
         <MenuItem Header="Edit">
             <MenuItem Header="Add Question" Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
             <MenuItem Header="Remove Question" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}"/>
-            <MenuItem Header="Pack Options" Command="{Binding OpenPackOptionsCommand}"/>
+            <MenuItem Header="Pack Options" Command="{Binding ConfigurationViewModel.OpenPackOptionsCommand}"/>
         </MenuItem>
         <MenuItem Header="View">
             <MenuItem Header="Play" Command="{Binding ShowPlayerViewCommand}"/>
             <MenuItem Header="Edit" Command="{Binding ShowConfigurationViewCommand}"/>
-            <MenuItem Header="Fullscreen" />
+            <MenuItem Header="Fullscreen" Command="{Binding FullscreenCommand}"/>
         </MenuItem>
     </Menu>
 </UserControl>

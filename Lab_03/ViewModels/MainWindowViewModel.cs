@@ -19,10 +19,10 @@ namespace Lab_03.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        public DelegateCommand FullscreenCommand { get; }
         public DelegateCommand ShowPlayerViewCommand { get; }
         public DelegateCommand ShowConfigurationViewCommand { get; }
         public DelegateCommand ExitCommand { get; }
-        public DelegateCommand OpenPackOptionsCommand { get; }
         public DelegateCommand DeleteQuestionPackCommand { get; }
         public DelegateCommand OpenAddQuestionPackDialogCommand { get; }
         public DelegateCommand SetActivePackCommand { get; }
@@ -42,6 +42,8 @@ namespace Lab_03.ViewModels
             {
                 _activePack = value;
                 RaisePropertyChanged();
+                ConfigurationViewModel?.RaisePropertyChanged(nameof(ConfigurationViewModel.ActivePack));
+                PlayerViewModel?.RaisePropertyChanged(nameof(PlayerViewModel.ActivePack));
                 UpdatePacks();
             }
         }
@@ -61,10 +63,10 @@ namespace Lab_03.ViewModels
             SetActivePackCommand = new DelegateCommand(SetActivePack);
             OpenAddQuestionPackDialogCommand = new DelegateCommand(OpenAddQuestionPackDialog);
             DeleteQuestionPackCommand = new DelegateCommand(DeleteQuestionPack);
-            OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions);
             ExitCommand = new DelegateCommand(Exit);
             ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
             ShowPlayerViewCommand = new DelegateCommand(ShowPlayerView);
+            FullscreenCommand = new DelegateCommand(FullScreen);
             mainWindow.Closing += (s, e) => OnClosing(e);
             ActiveView = new ConfigurationView();
             Grid.SetRow(ActiveView, 1);
@@ -105,11 +107,6 @@ namespace Lab_03.ViewModels
                 packs.Remove(ActivePack);
             }
         }
-        private void OpenPackOptions (object? obj)
-        {
-            var packOptionsDialog = new PackOptionsDialog(this);
-            packOptionsDialog.ShowDialog();
-        }
         private void ShowPlayerView (object? obj)
         {
             PlayerViewModel.StartQuiz();
@@ -141,6 +138,10 @@ namespace Lab_03.ViewModels
             UpdatePacks();
             MainWindow.Close();
         }
+        private void FullScreen(object? obj)
+        {
+            MainWindow.WindowState = WindowState.Maximized;
+        }
     }
 }
 
@@ -150,7 +151,7 @@ namespace Lab_03.ViewModels
  * Disable New Question Pack during play
  * Disable all submenus in Edit menu
  * When ConfigurationView is shown, The first question of the active pack should be chosen in the listBox
- * Bindings and writings to Json should happen when property is changed
+ * Bindings should happen when property is changed
  * active pack is changed in config view, The first question of the active pack should be chosen in the listBox
  * When a new question pack is added, it should get activated
  * When a questin pack is deleted, The first pack should be activated

@@ -1,5 +1,6 @@
 ﻿using Lab_03.Commands;
 using Lab_03.Models;
+using Lab_03.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,16 @@ namespace Lab_03.ViewModels
     {
         public DelegateCommand RemoveQuestionCommand { get; }
         public DelegateCommand AddQuestionCommand { get; }
+        public DelegateCommand OpenPackOptionsCommand { get; }
         private List<QuestionPackViewModel> _allPacks = new List<QuestionPackViewModel>();
         private readonly MainWindowViewModel? _mainWindowViewModel;
-        public QuestionPackViewModel ActivePack;
         private int _SelectedIndex;
         private Question _selectedQuestion;
+        public QuestionPackViewModel ActivePack
+        {
+            get => _mainWindowViewModel.ActivePack;
+            //set => _mainWindowViewModel.ActivePack = value;
+        }
         public List<QuestionPackViewModel> AllPacks
         {  
             get => _allPacks;
@@ -52,9 +58,14 @@ namespace Lab_03.ViewModels
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
-            ActivePack = _mainWindowViewModel.ActivePack;
             RemoveQuestionCommand = new DelegateCommand(RemoveQuestion);
             AddQuestionCommand = new DelegateCommand(AddQuestion);
+            OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions);
+        }
+        private void OpenPackOptions(object? obj)
+        {
+            var packOptionsDialog = new PackOptionsDialog(_mainWindowViewModel);
+            packOptionsDialog.ShowDialog();
         }
         private void RemoveQuestion(object? obj)
         {
