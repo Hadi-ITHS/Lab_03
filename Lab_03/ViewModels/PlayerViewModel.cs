@@ -11,11 +11,11 @@ using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace Lab_03.ViewModels
-{   public enum PlayState { Playing, EndGame }
+{   public enum PlayState { NotPlaying, Playing, EndGame }
     public class PlayerViewModel : ViewModelBase
     {
         public int Points { get; set; }
-        private PlayState playState;
+        public PlayState playState;
         public int currentIndex = 0;
         public bool IsAnswerChosen { get; set; }
         private DispatcherTimer dispatcherTimer;
@@ -129,7 +129,7 @@ namespace Lab_03.ViewModels
         }
         public void EndGame()
         {
-            dispatcherTimer.Stop();
+            dispatcherTimer?.Stop();
             GameOverViewText = $"You got {Points} out of {ActivePack.Questions.Count} answers correct!";
             playState = PlayState.EndGame;
         }

@@ -91,7 +91,7 @@ namespace Lab_03.ViewModels
         }
         private void SetActivePack(object? obj)
         {
-            if (obj is QuestionPackViewModel selectedPack)
+            if (obj is QuestionPackViewModel selectedPack && PlayerViewModel.playState != PlayState.Playing)
             {
                 ActivePack = selectedPack;
                 if (ActivePack.Questions.Count > 0)
@@ -102,25 +102,31 @@ namespace Lab_03.ViewModels
         }
         private void OpenAddQuestionPackDialog (object? obj)
         {
-            var addQuestionPackDialog = new AddQuestionPackDialog(this);
-            addQuestionPackDialog.ShowDialog();
-            if ((bool)addQuestionPackDialog.DialogResult)
+            if (PlayerViewModel.playState != PlayState.Playing)
             {
-                ActivePack = packs[packs.Count - 1];
-                ConfigurationViewModel.SelectedQuestion = null;
+                var addQuestionPackDialog = new AddQuestionPackDialog(this);
+                addQuestionPackDialog.ShowDialog();
+                if ((bool)addQuestionPackDialog.DialogResult)
+                {
+                    ActivePack = packs[packs.Count - 1];
+                    ConfigurationViewModel.SelectedQuestion = null;
+                }
             }
         }
         private void DeleteQuestionPack (object? obj)
         {
-            MessageBoxResult result=MessageBox.Show("Are you sure you want to delete this question pack?", "Confirm Action", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
-            if (result == MessageBoxResult.Yes)
+            if (PlayerViewModel.playState != PlayState.Playing)
             {
-                packs.Remove(ActivePack);
-                ActivePack = packs[0];
-                if (ActivePack.Questions.Count > 0)
-                    ConfigurationViewModel.SelectedIndex = 0;
-                else
-                    ConfigurationViewModel.SelectedIndex = -1;
+                MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this question pack?", "Confirm Action", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
+                if (result == MessageBoxResult.Yes)
+                {
+                    packs.Remove(ActivePack);
+                    ActivePack = packs[0];
+                    if (ActivePack.Questions.Count > 0)
+                        ConfigurationViewModel.SelectedIndex = 0;
+                    else
+                        ConfigurationViewModel.SelectedIndex = -1;
+                }
             }
         }
         private void ShowPlayerView (object? obj)
@@ -143,6 +149,7 @@ namespace Lab_03.ViewModels
         private void ShowConfigurationView(object? obj)
         {
             PlayerViewModel.EndGame();
+            PlayerViewModel.playState = PlayState.NotPlaying;
             MainWindow.Grid.Children.Remove(ActiveView);
             ConfigurationView = new ConfigurationView();
             ActiveView = ConfigurationView;
@@ -161,11 +168,9 @@ namespace Lab_03.ViewModels
 }
 
 /*TODO:
- * Disable Select Question Pack during play
- * Disable Delete Question Pack during play
- * Disable New Question Pack during play
  * Disable all submenus in Edit menu during play
  * While playing, the play menu should be disabled
+ * The game should not be started if a question pack is empty
  * Json file should be created in the desired path in
  * Design and resizability
  * Icons from FontAwesome
