@@ -94,6 +94,10 @@ namespace Lab_03.ViewModels
             if (obj is QuestionPackViewModel selectedPack)
             {
                 ActivePack = selectedPack;
+                if (ActivePack.Questions.Count > 0)
+                    ConfigurationViewModel.SelectedIndex = 0;
+                else
+                    ConfigurationViewModel.SelectedQuestion = null;
             }
         }
         private void OpenAddQuestionPackDialog (object? obj)
@@ -160,14 +164,9 @@ namespace Lab_03.ViewModels
  * Disable Select Question Pack during play
  * Disable Delete Question Pack during play
  * Disable New Question Pack during play
- * Disable all submenus in Edit menu
- * When ConfigurationView is shown, The first question of the active pack should be chosen in the listBox
- * Bindings should happen when property is changed
- * active pack is changed in config view, The first question of the active pack should be chosen in the listBox
- * Json file should be created in the desired path in
- * What is wrong with the timer?
- * After an answer is chosen, focus on buttons should not be possible
+ * Disable all submenus in Edit menu during play
  * While playing, the play menu should be disabled
+ * Json file should be created in the desired path in
  * Design and resizability
  * Icons from FontAwesome
  */
