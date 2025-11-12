@@ -76,8 +76,8 @@ namespace Lab_03.ViewModels
             if (ActivePack.Questions.Count > 0)
             {
                 Points = 0;
-                QuestionCountDescription = $"Question {currentIndex+1} of {ActivePack.Questions.Count}";
                 currentIndex = 0;
+                QuestionCountDescription = $"Question {currentIndex + 1} of {ActivePack.Questions.Count}";
                 RandomizeQuestions();
                 CurrentQuestion = ActivePack.RandomizedQuestions[currentIndex];
                 CurrentQuerry = ActivePack.RandomizedQuerries[currentIndex];

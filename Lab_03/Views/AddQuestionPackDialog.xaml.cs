@@ -2,6 +2,7 @@
 using Lab_03.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,8 +20,9 @@ namespace Lab_03.Views
     /// <summary>
     /// Interaction logic for AddQuestionPackDialog.xaml
     /// </summary>
-    public partial class AddQuestionPackDialog : Window
+    public partial class AddQuestionPackDialog : Window, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
         private MainWindowViewModel _mainWindowViewModel {  get;}
         public string Name
         {
@@ -48,12 +50,17 @@ namespace Lab_03.Views
         public int TimeLimit
         {
             get => (int) TimeLimitSlider.Value;
-            set => TimeLimitSlider.Value = value;
+            set
+            {
+                TimeLimitSlider.Value = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TimeLimit"));
+            }
         }
         public AddQuestionPackDialog(MainWindowViewModel mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
             InitializeComponent();
+            DataContext = this;
         }
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {

@@ -166,4 +166,19 @@ namespace Lab_03.ViewModels
  * Disable Delete Question Pack during play
  * Disable New Question Pack during play
  * Disable all submenus in Edit menu
+ * When ConfigurationView is shown, The first question of the active pack should be chosen in the listBox
+ * Bindings and writings to Json should happen when property is changed
+ * active pack is changed in config view, The first question of the active pack should be chosen in the listBox
+ * When a new question pack is added, it should get activated
+ * When a questin pack is deleted, The first pack should be activated
+ * When a question is deleted, either the first question should be chosen or the one before the deleted one
+ * When a question is added, it should be selected in the list box
+ * Json file should be created in the desired path in
+ * What is wrong with the timer?
+ * After an anser is chosen, focus on buttons should not be possible
+ * While playing, the play menu should be disabled
+ * Add full screen functionality
+ * Design and resizability
+ * Exit function
+ * Icons from FontAwesome
  */

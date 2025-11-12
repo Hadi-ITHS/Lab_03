@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab_03.Views"
         mc:Ignorable="d"
-        Title="AddQuestionPackDialog" Height="300" Width="182" ResizeMode="NoResize">
+        Title="AddQuestionPackDialog" Height="300" Width="250" ResizeMode="NoResize"
+        >
     <Grid>
         <StackPanel Orientation="Vertical">
             <Label Content="Pack Name:" />
@@ -16,11 +17,14 @@
                 <ComboBoxItem>Medium</ComboBoxItem>
                 <ComboBoxItem>Hard</ComboBoxItem>
             </ComboBox>
-            <Label Content="Time Limit:" />
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Time Limit in seconds:" />
+                <Label Content="{Binding TimeLimit}" Margin="10 0 0 0"/>
+            </StackPanel>
             <Slider Name="TimeLimitSlider" TickPlacement="BottomRight" TickFrequency="5" Minimum="5" Maximum="120" Margin="5" IsSnapToTickEnabled="True"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Name="CancelButton" Content="Cancel" Margin="15" Padding="10 3" Click="CancelButton_Click"/>
-                <Button Name="CreateButton" Content="Create" Margin="15" Padding="10 3" Click="CreateButton_Click"/>
+                <Button Name="CancelButton" Content="Cancel" Margin="30" Padding="20 5" Click="CancelButton_Click"/>
+                <Button Name="CreateButton" Content="Create" Margin="30" Padding="20 5" Click="CreateButton_Click"/>
             </StackPanel>
         </StackPanel>
     </Grid>

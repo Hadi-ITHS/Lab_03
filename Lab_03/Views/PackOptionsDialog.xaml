@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lab_03.Views"
         xmlns:converters="clr-namespace:Lab_03.Converters"
         mc:Ignorable="d"
-        Title="PackOptionsDialog" Height="250" Width="400" ResizeMode="NoResize">
+        Title="PackOptionsDialog" Height="300" Width="250" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical">
             <StackPanel.Resources>
@@ -20,7 +20,10 @@
                 <ComboBoxItem>Medium</ComboBoxItem>
                 <ComboBoxItem>Hard</ComboBoxItem>
             </ComboBox>
-            <Label Content="Time Limit:" />
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Time Limit in seconds:" />
+                <Label Content="{Binding ActivePack.TimeLimitInSeconds}" Margin="10 0 0 0"/>
+            </StackPanel>
             <Slider Name="TimeLimitSlider" TickPlacement="BottomRight" TickFrequency="5" Minimum="5" Maximum="120" Margin="5" IsSnapToTickEnabled="True"
                     Value="{Binding ActivePack.TimeLimitInSeconds}"/>
         </StackPanel>
