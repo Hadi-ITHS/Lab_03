@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -64,29 +65,10 @@ namespace Lab_03.ViewModels
             ExitCommand = new DelegateCommand(Exit);
             ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView);
             ShowPlayerViewCommand = new DelegateCommand(ShowPlayerView);
+            mainWindow.Closing += (s, e) => OnClosing(e);
             ActiveView = new ConfigurationView();
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
-            //test
-            /*string[] a = { "b", "c", "d" };
-            string[] A = { "B", "C", "D" };
-            string[] g = { "h", "j", "k" };
-            string[] G = { "H", "J", "K" };
-            var pack01 = new QuestionPack("Medium Pack 01");
-            pack01.Questions.Add(new Question("Querry01", "a", a));
-            pack01.Questions.Add(new Question("Querry02", "A", A));
-            ActivePack = new QuestionPackViewModel(pack01);
-            packs.Add(ActivePack);
-
-
-            var pack02 = new QuestionPack("Hard Pack 02");
-            pack02.Questions.Add(new Question("Querry01", "g", g));
-            pack02.Questions.Add(new Question("Querry02", "G", G));
-            ActivePack = new QuestionPackViewModel(pack02);
-            packs.Add(ActivePack);
-            string json = JsonSerializer.Serialize(packs);
-            File.WriteAllText("Questions.json", json);*/
-            //test
         }
         private void UpdatePacks()
         {
@@ -98,6 +80,10 @@ namespace Lab_03.ViewModels
                 }
             }
             JsonWrite(packs);
+        }
+        private void OnClosing (CancelEventArgs e)
+        {
+            UpdatePacks();
         }
         private void SetActivePack(object? obj)
         {
@@ -124,10 +110,6 @@ namespace Lab_03.ViewModels
             var packOptionsDialog = new PackOptionsDialog(this);
             packOptionsDialog.ShowDialog();
         }
-        /*private void HandleActiveView (UserControl view)
-        {
-            MainWindow.
-        }*/
         private void ShowPlayerView (object? obj)
         {
             PlayerViewModel.StartQuiz();
@@ -157,6 +139,7 @@ namespace Lab_03.ViewModels
         private void Exit (object? obj)
         {
             UpdatePacks();
+            MainWindow.Close();
         }
     }
 }
@@ -175,10 +158,9 @@ namespace Lab_03.ViewModels
  * When a question is added, it should be selected in the list box
  * Json file should be created in the desired path in
  * What is wrong with the timer?
- * After an anser is chosen, focus on buttons should not be possible
+ * After an answer is chosen, focus on buttons should not be possible
  * While playing, the play menu should be disabled
  * Add full screen functionality
  * Design and resizability
- * Exit function
  * Icons from FontAwesome
  */
