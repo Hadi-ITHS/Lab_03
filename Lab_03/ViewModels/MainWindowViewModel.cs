@@ -81,11 +81,12 @@ namespace Lab_03.ViewModels
                     packs[i] = ActivePack;
                 }
             }
-            JsonWrite(packs);
+            //JsonWrite(packs);
         }
         private void OnClosing (CancelEventArgs e)
         {
             UpdatePacks();
+            JsonWrite(packs);
         }
         private void SetActivePack(object? obj)
         {
@@ -135,7 +136,6 @@ namespace Lab_03.ViewModels
         }
         private void Exit (object? obj)
         {
-            UpdatePacks();
             MainWindow.Close();
         }
         private void FullScreen(object? obj)
@@ -161,7 +161,6 @@ namespace Lab_03.ViewModels
  * What is wrong with the timer?
  * After an answer is chosen, focus on buttons should not be possible
  * While playing, the play menu should be disabled
- * Add full screen functionality
  * Design and resizability
  * Icons from FontAwesome
  */

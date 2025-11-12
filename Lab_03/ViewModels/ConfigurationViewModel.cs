@@ -21,7 +21,7 @@ namespace Lab_03.ViewModels
         public QuestionPackViewModel ActivePack
         {
             get => _mainWindowViewModel.ActivePack;
-            //set => _mainWindowViewModel.ActivePack = value;
+            set => _mainWindowViewModel.ActivePack = value;
         }
         public List<QuestionPackViewModel> AllPacks
         {  
@@ -50,6 +50,7 @@ namespace Lab_03.ViewModels
             {
                 _selectedQuestion = value;
                 RaisePropertyChanged();
+                ActivePack.Questions[SelectedIndex] = value;
             }
         }
 
