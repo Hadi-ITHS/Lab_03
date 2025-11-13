@@ -1,17 +1,10 @@
 ﻿using Lab_03.Commands;
 using Lab_03.Models;
 using Lab_03.Views;
-using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Channels;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -31,6 +24,8 @@ namespace Lab_03.ViewModels
         public GameOverView GameOverView { get; set; }
         public ConfigurationView ConfigurationView { get; set; }
         public UserControl ActiveView { get; set; }
+        private string appDataPath;
+        private string jsonPath;
         public ObservableCollection<QuestionPackViewModel> packs { get; }
         private QuestionPackViewModel _activePack;
         public PlayerViewModel? PlayerViewModel { get;}
@@ -49,14 +44,12 @@ namespace Lab_03.ViewModels
         }
         public MainWindowViewModel(MainWindow mainWindow)
         {
+            appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Lab03");
+            Directory.CreateDirectory(appDataPath);
+            jsonPath = Path.Combine(appDataPath, "Questions.json");
             packs = new ObservableCollection<QuestionPackViewModel>();
-            List<QuestionPack> importedPacks = JsonSerializer.Deserialize<List<QuestionPack>>(File.ReadAllText(("Questions.json")));
-            foreach (var pack in importedPacks)
-            {
-                packs.Add(new QuestionPackViewModel(pack));
-            }
-            if (packs.Count > 0)
-                ActivePack = packs[0];
+            LoadPacksAsync();
+            
             MainWindow = mainWindow;
             ConfigurationView = new ConfigurationView();
             PlayerViewModel = new PlayerViewModel(this);
@@ -87,7 +80,7 @@ namespace Lab_03.ViewModels
         private void OnClosing (CancelEventArgs e)
         {
             UpdatePacks();
-            JsonWrite(packs);
+            JsonWriteAsync();
         }
         private void SetActivePack(object? obj)
         {
@@ -188,13 +181,47 @@ namespace Lab_03.ViewModels
             ShowConfigurationViewCommand.RaiseCanExecuteChanged();
             ShowPlayerViewCommand.RaiseCanExecuteChanged();
         }
+        private async Task JsonWriteAsync()
+        {
+            //File.WriteAllText(jsonPath, JsonSerializer.Serialize(packs));
+/*            if (!File.Exists(jsonPath))
+            {
+                File.Create(jsonPath);
+            }*/
+            using FileStream stream = File.OpenWrite(jsonPath);
+            await JsonSerializer.SerializeAsync(stream, packs);
+        }
+        private async Task LoadPacksAsync()
+        {
+            var importPacksTask = JsonReadAsync();
+            var importedPacks = await importPacksTask;
+            foreach (var pack in importedPacks)
+            {
+                packs.Add(new QuestionPackViewModel(pack));
+            }
+            if (packs.Count > 0)
+                ActivePack = packs[0];
+        }
+        private async Task<List<QuestionPack>> JsonReadAsync()
+        {
+            if (!File.Exists(jsonPath))
+            {
+                File.Create(jsonPath);
+                var tmpPack = new List<QuestionPack>();
+                tmpPack.Add(new QuestionPack("Default pack"));
+                return tmpPack;
+            }
+            else
+            {
+                using FileStream stream = File.OpenRead(jsonPath);
+                var importedPacks = await JsonSerializer.DeserializeAsync<List<QuestionPack>>(stream);
+                return importedPacks ?? new List<QuestionPack>();
+            }   
+        }
     }
 }
 
 /*TODO:
- * Json file should be created in the desired path in
- * Read and Write in Json should be Async
- * Keyboard shortcuts should be added to menu
- * Design and resizability
  * Icons from FontAwesome
+ * check out keyword
  */

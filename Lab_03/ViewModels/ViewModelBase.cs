@@ -19,15 +19,5 @@ namespace Lab_03.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public void JsonWrite(ObservableCollection<QuestionPackViewModel> packs)
-        {
-            File.WriteAllText("Questions.json", JsonSerializer.Serialize(packs));
-
-            /*using (var writer = new StreamWriter("Questions.json"))
-            {
-                writer.Write(JsonSerializer.Serialize(packs));
-            }*/
-        }
     }
 }

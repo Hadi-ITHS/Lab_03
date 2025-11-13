@@ -20,7 +20,8 @@ namespace Lab_03
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel(this);
+            MainWindowViewModel mainWindowViewModel = new MainWindowViewModel(this);
+            DataContext = mainWindowViewModel;
         }
     }
 }

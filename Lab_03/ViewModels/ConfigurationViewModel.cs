@@ -40,7 +40,7 @@ namespace Lab_03.ViewModels
                 _SelectedIndex = value;
                 RaisePropertyChanged();
                 if (value >= 0)
-                    SelectedQuestion = ActivePack.Questions[SelectedIndex];
+                    SelectedQuestion = ActivePack?.Questions[SelectedIndex];
             }
         }
         public Question SelectedQuestion
@@ -71,13 +71,19 @@ namespace Lab_03.ViewModels
         }
         private void RemoveQuestion(object? obj)
         {
-            ActivePack.Questions.Remove(SelectedQuestion);
-            SelectedIndex = ActivePack.Questions.Count - 1;
+            if (ActivePack != null)
+            {
+                ActivePack.Questions.Remove(SelectedQuestion);
+                SelectedIndex = ActivePack.Questions.Count - 1;
+            }
         }
         private void AddQuestion(object? obj)
         {
-            ActivePack.Questions.Add(new Question("New Question", "CorrectAnswer", new string[3] {null,null,null }));
-            SelectedIndex = ActivePack.Questions.Count-1;
+            if (ActivePack != null)
+            {
+                ActivePack.Questions.Add(new Question("New Question", "CorrectAnswer", new string[3] { "IncorrectAnswer 01", "IncorrectAnswer 02", "IncorrectAnswer 03" }));
+                SelectedIndex = ActivePack.Questions.Count - 1;
+            }
         }
         private bool CanAddQuestion(object? obj)
         {
