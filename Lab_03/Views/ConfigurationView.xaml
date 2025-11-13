@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Lab_03.Views"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              DataContext="{Binding ConfigurationViewModel}"
@@ -31,9 +32,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Label Name="NameOfQuestionPack" Grid.Row="0" HorizontalAlignment="Left" Content="{Binding ActivePack.Name}" VerticalAlignment="Center" Margin="10 0 0 0"/>
-        <Button Name="PackOptions_Button" Content=" :: " Grid.Column="1" Margin="10" Command="{Binding OpenPackOptionsCommand}"/>
-        <Button Name="AddQuestion_Button" Content=" + " Grid.Column="2" Margin="10" Command="{Binding AddQuestionCommand}"/>
-        <Button Name="RemoveQuestion_Button" Content=" - " Grid.Column="3" Margin="10" Command="{Binding RemoveQuestionCommand}" />
+        <Button Name="PackOptions_Button" Content="{fa:Icon Gears}" Grid.Column="1" Margin="10" Command="{Binding OpenPackOptionsCommand}" Padding="5"/>
+        <Button Name="AddQuestion_Button" Content="{fa:Icon Plus}" Grid.Column="2" Margin="10" Command="{Binding AddQuestionCommand}" Padding="5"/>
+        <Button Name="RemoveQuestion_Button" Content="{fa:Icon Minus}" Grid.Column="3" Margin="10" Command="{Binding RemoveQuestionCommand}" Padding="5"/>
         <ListBox Name="ListOfQuestions" ItemsSource="{Binding ActivePack.Questions, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedIndex}" Grid.RowSpan="12" Grid.ColumnSpan="4" Grid.Row="1" Margin="10">
             <ListBox.ItemTemplate>
                 <DataTemplate>

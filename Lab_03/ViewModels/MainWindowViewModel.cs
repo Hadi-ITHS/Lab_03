@@ -49,7 +49,6 @@ namespace Lab_03.ViewModels
             jsonPath = Path.Combine(appDataPath, "Questions.json");
             packs = new ObservableCollection<QuestionPackViewModel>();
             LoadPacksAsync();
-            
             MainWindow = mainWindow;
             ConfigurationView = new ConfigurationView();
             PlayerViewModel = new PlayerViewModel(this);

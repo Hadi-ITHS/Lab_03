@@ -61,8 +61,6 @@ namespace Lab_03.ViewModels
             AddQuestionCommand = new DelegateCommand(AddQuestion, CanAddQuestion);
             OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions, CanOpenPackOptions);
             SelectedIndex = 0;
-            /*if (ActivePack.Questions.Count > 0)
-                _mainWindowViewModel.ConfigurationView.ListOfQuestions.SelectedIndex = 0;*/
         }
         private void OpenPackOptions(object? obj)
         {

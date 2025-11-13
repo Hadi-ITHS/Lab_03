@@ -28,11 +28,9 @@ namespace Lab_03.Commands
             return canExecute is null ? true : canExecute(parameter);
         }
 
-        //public bool CanExecute(object? parameter) => canExecute is null ? true : canExecute(parameter);
-
         public void Execute(object? parameter)
         {
-            execute(parameter);
+                execute(parameter);
         }
     }
 }
