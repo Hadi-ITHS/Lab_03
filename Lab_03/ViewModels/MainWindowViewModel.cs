@@ -75,7 +75,6 @@ namespace Lab_03.ViewModels
                     packs[i] = ActivePack;
                 }
             }
-            //JsonWrite(packs);
         }
         private void OnClosing (CancelEventArgs e)
         {
@@ -184,10 +183,6 @@ namespace Lab_03.ViewModels
         private async Task JsonWriteAsync()
         {
             //File.WriteAllText(jsonPath, JsonSerializer.Serialize(packs));
-/*            if (!File.Exists(jsonPath))
-            {
-                File.Create(jsonPath);
-            }*/
             using FileStream stream = File.OpenWrite(jsonPath);
             await JsonSerializer.SerializeAsync(stream, packs);
         }
