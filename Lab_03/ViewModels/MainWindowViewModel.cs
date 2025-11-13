@@ -48,6 +48,8 @@ namespace Lab_03.ViewModels
             Directory.CreateDirectory(appDataPath);
             jsonPath = Path.Combine(appDataPath, "Questions.json");
             packs = new ObservableCollection<QuestionPackViewModel>();
+            if (packs.Count < 0)
+                packs.Add(new QuestionPackViewModel(new QuestionPack("Default pack")));
             LoadPacksAsync();
             MainWindow = mainWindow;
             ConfigurationView = new ConfigurationView();
@@ -110,7 +112,7 @@ namespace Lab_03.ViewModels
             if (PlayerViewModel.playState != PlayState.Playing)
             {
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this question pack?", "Confirm Action", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
-                if (result == MessageBoxResult.Yes)
+                if (result == MessageBoxResult.Yes && packs.Count > 1)
                 {
                     packs.Remove(ActivePack);
                     if (packs.Count > 0)
@@ -120,11 +122,6 @@ namespace Lab_03.ViewModels
                             ConfigurationViewModel.SelectedIndex = 0;
                         else
                             ConfigurationViewModel.SelectedIndex = -1;
-                    }
-                    else
-                    {
-                        ActivePack = null;
-                        ConfigurationViewModel.SelectedQuestion = null;
                     }
                 }
             }
