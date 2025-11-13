@@ -39,7 +39,7 @@ namespace Lab_03.ViewModels
             {
                 _SelectedIndex = value;
                 RaisePropertyChanged();
-                if (value >= 0)
+                if (value >= 0 && SelectedIndex != null)
                     SelectedQuestion = ActivePack?.Questions[SelectedIndex];
             }
         }
