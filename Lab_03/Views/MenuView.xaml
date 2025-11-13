@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Lab_03.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             >
     <Menu>
         <MenuItem Header="_File">
-            <MenuItem Header="_New Question Pack" Command="{Binding OpenAddQuestionPackDialogCommand}"/>
-            <MenuItem Header="Select Question Pack" ItemsSource = "{Binding packs}">
+            <MenuItem Header="_New Question Pack" Command="{Binding OpenAddQuestionPackDialogCommand}" Icon="{fa:Icon FolderPlus}"/>
+            <MenuItem Header="Select Question Pack" ItemsSource = "{Binding packs}" Icon="{fa:Icon HandPointer}">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
                         <Setter Property="Header" Value="{Binding Name}" />
@@ -18,21 +20,21 @@
                     </Style>
                 </MenuItem.ItemContainerStyle>
             </MenuItem>
-            <MenuItem Header="Delete Question Pack" Command="{Binding DeleteQuestionPackCommand}" />
+            <MenuItem Header="Delete Question Pack" Command="{Binding DeleteQuestionPackCommand}" Icon="{fa:Icon Trash}"/>
             <Separator />
-            <MenuItem Header="Import Questions" />
+            <MenuItem Header="Import Questions" Icon="{fa:Icon FileArrowDown}"/>
             <Separator />
-            <MenuItem Header="E_xit" Command="{Binding ExitCommand}"/>
+            <MenuItem Header="E_xit" Command="{Binding ExitCommand}" Icon="{fa:Icon DoorOpen}"/>
         </MenuItem>
         <MenuItem Header="Edit">
-            <MenuItem Header="Add Question" Command="{Binding ConfigurationViewModel.AddQuestionCommand}"/>
-            <MenuItem Header="Remove Question" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}"/>
-            <MenuItem Header="Pack Options" Command="{Binding ConfigurationViewModel.OpenPackOptionsCommand}"/>
+            <MenuItem Header="Add Question" Command="{Binding ConfigurationViewModel.AddQuestionCommand}" Icon="{fa:Icon Plus}"/>
+            <MenuItem Header="Remove Question" Command="{Binding ConfigurationViewModel.RemoveQuestionCommand}" Icon="{fa:Icon Minus}"/>
+            <MenuItem Header="Pack Options" Command="{Binding ConfigurationViewModel.OpenPackOptionsCommand}" Icon="{fa:Icon Gears}"/>
         </MenuItem>
         <MenuItem Header="View">
-            <MenuItem Header="Play" Command="{Binding ShowPlayerViewCommand}"/>
-            <MenuItem Header="Edit" Command="{Binding ShowConfigurationViewCommand}"/>
-            <MenuItem Header="Fullscreen" Command="{Binding FullscreenCommand}"/>
+            <MenuItem Header="Play" Command="{Binding ShowPlayerViewCommand}" Icon="{fa:Icon Play}"/>
+            <MenuItem Header="Edit" Command="{Binding ShowConfigurationViewCommand}" Icon="{fa:Icon Sliders}"/>
+            <MenuItem Header="Fullscreen" Command="{Binding FullscreenCommand}" Icon="{fa:Icon Expand}"/>
         </MenuItem>
     </Menu>
 </UserControl>

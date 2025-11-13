@@ -220,8 +220,3 @@ namespace Lab_03.ViewModels
         }
     }
 }
-
-/*TODO:
- * Icons from FontAwesome
- * check out keyword
- */
