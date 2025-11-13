@@ -113,11 +113,19 @@ namespace Lab_03.ViewModels
                 if (result == MessageBoxResult.Yes)
                 {
                     packs.Remove(ActivePack);
-                    ActivePack = packs[0];
-                    if (ActivePack.Questions.Count > 0)
-                        ConfigurationViewModel.SelectedIndex = 0;
+                    if (packs.Count > 0)
+                    {
+                        ActivePack = packs[0];
+                        if (ActivePack.Questions.Count > 0)
+                            ConfigurationViewModel.SelectedIndex = 0;
+                        else
+                            ConfigurationViewModel.SelectedIndex = -1;
+                    }
                     else
-                        ConfigurationViewModel.SelectedIndex = -1;
+                    {
+                        ActivePack = null;
+                        ConfigurationViewModel.SelectedQuestion = null;
+                    }
                 }
             }
         }
@@ -132,7 +140,7 @@ namespace Lab_03.ViewModels
         }
         private bool CanShowPlayerView (object? obj)
         {
-            if (PlayerViewModel.playState == PlayState.Playing || ActivePack.Questions.Count <= 0)
+            if (PlayerViewModel.playState == PlayState.Playing || ActivePack?.Questions.Count <= 0)
                 return false;
             else
                 return true;

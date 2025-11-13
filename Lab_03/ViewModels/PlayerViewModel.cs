@@ -73,7 +73,7 @@ namespace Lab_03.ViewModels
         }
         public void StartQuiz ()
         {
-            if (ActivePack.Questions.Count > 0)
+            if (ActivePack?.Questions.Count > 0)
             {
                 Points = 0;
                 currentIndex = 0;
