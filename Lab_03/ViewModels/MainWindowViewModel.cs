@@ -14,7 +14,6 @@ namespace Lab_03.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        //TODO: The Categories instance should load its data from the database
         public DelegateCommand FullscreenCommand { get; }
         public DelegateCommand ShowPlayerViewCommand { get; }
         public DelegateCommand ShowConfigurationViewCommand { get; }
@@ -27,8 +26,6 @@ namespace Lab_03.ViewModels
         public GameOverView GameOverView { get; set; }
         public ConfigurationView ConfigurationView { get; set; }
         public UserControl ActiveView { get; set; }
-        private string appDataPath;
-        private string jsonPath;
         public ObservableCollection<QuestionPackViewModel> packs { get; }
         private QuestionPackViewModel _activePack;
         public PlayerViewModel? PlayerViewModel { get;}
@@ -52,17 +49,17 @@ namespace Lab_03.ViewModels
             Categories = new List<string>();
             MongoDbManager = new MongoDbManager(this);
             packs = new ObservableCollection<QuestionPackViewModel>();
+            LoadCategories();
+            if (Categories.Count < 1)
+            {
+                Categories.Add("Default");
+                MongoDbManager.InsertCategory(Categories[0]);
+            }
             LoadQuestionPacks();
             if (packs.Count < 1)
             {
                 packs.Add(new QuestionPackViewModel(new QuestionPack("Default pack")));
                 MongoDbManager.InsertQuestionPack(packs[0].Model);
-            }
-            LoadCategories();
-            if (Categories.Count < 1)
-            {
-                Categories.Add("Default category");
-                MongoDbManager.InsertCategory(Categories[0]);
             }
             MainWindow = mainWindow;
             ConfigurationView = new ConfigurationView();
@@ -117,6 +114,7 @@ namespace Lab_03.ViewModels
                 {
                     ActivePack = packs[packs.Count - 1];
                     ConfigurationViewModel.SelectedQuestion = null;
+                    //MongoDbManager.InsertQuestionPack(ActivePack.Model);
                 }
             }
         }

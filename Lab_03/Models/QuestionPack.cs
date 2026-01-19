@@ -12,12 +12,13 @@ namespace Lab_03.Models
     [BsonIgnoreExtraElements]
     public class QuestionPack
     {
-        public QuestionPack(string name, int timeLimitInSeconds = 30, Difficulty difficulty = Difficulty.Medium)
+        public QuestionPack(string name, int timeLimitInSeconds = 30, Difficulty difficulty = Difficulty.Medium, string category = "Default")
         {
             Name = name;
             TimeLimitInSeconds = timeLimitInSeconds;
             Difficulty = difficulty;
             Questions = new List<Question>();
+            Category = category;
         }
         [BsonId]
         public ObjectId Id { get; set; }

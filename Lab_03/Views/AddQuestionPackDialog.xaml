@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab_03.Views"
         mc:Ignorable="d"
-        Title="AddQuestionPackDialog" Height="300" Width="250" ResizeMode="NoResize"
+        Title="AddQuestionPackDialog" Height="400" Width="300" ResizeMode="NoResize"
         >
     <Grid>
         <StackPanel Orientation="Vertical">
@@ -17,6 +17,9 @@
                 <ComboBoxItem>Medium</ComboBoxItem>
                 <ComboBoxItem>Hard</ComboBoxItem>
             </ComboBox>
+            <Label Content="Category:" />
+            <ComboBox Name="CategoryComboBox" Margin="5" SelectedIndex="1" ItemsSource="{Binding Categories}" 
+                      SelectedItem="{Binding SelectedCategory}"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Time Limit in seconds:" />
                 <Label Content="{Binding TimeLimit}" Margin="10 0 0 0"/>

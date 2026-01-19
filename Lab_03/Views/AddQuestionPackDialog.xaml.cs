@@ -24,6 +24,8 @@ namespace Lab_03.Views
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private MainWindowViewModel _mainWindowViewModel {  get;}
+        public List<string> Categories { get; set; }
+        public string SelectedCategory { get; set; }
         public string Name
         {
             get => PackNameTextBox.Text;
@@ -59,12 +61,13 @@ namespace Lab_03.Views
         public AddQuestionPackDialog(MainWindowViewModel mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
+            Categories = mainWindowViewModel.Categories;
             InitializeComponent();
             DataContext = this;
         }
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            var pack = new QuestionPack(Name, TimeLimit, Difficulty);
+            var pack = new QuestionPack(Name, TimeLimit, Difficulty, SelectedCategory);
             _mainWindowViewModel.packs.Add(new QuestionPackViewModel(pack));
             DialogResult = true;
             Close();

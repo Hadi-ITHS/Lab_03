@@ -39,6 +39,15 @@ namespace Lab_03.ViewModels
                 RaisePropertyChanged();
             }
         }
+        public string Category
+        {
+            get => Model.Category;
+            set
+            {
+                Model.Category = value;
+                RaisePropertyChanged();
+            }
+        }
         public ObservableCollection<Question> Questions { get; set; }
         public List<string[]> RandomizedQuestions { get; set; }
         public List<string> RandomizedQueries { get; set; }

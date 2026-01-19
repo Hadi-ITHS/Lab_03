@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lab_03.Views"
         xmlns:converters="clr-namespace:Lab_03.Converters"
         mc:Ignorable="d"
-        Title="PackOptionsDialog" Height="300" Width="250" ResizeMode="NoResize">
+        Title="PackOptionsDialog" Height="400" Width="300" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical">
             <StackPanel.Resources>
@@ -20,6 +20,9 @@
                 <ComboBoxItem>Medium</ComboBoxItem>
                 <ComboBoxItem>Hard</ComboBoxItem>
             </ComboBox>
+            <Label Content="Category:" />
+            <ComboBox Name="CategoryComboBox" Margin="5" SelectedIndex="1" ItemsSource="{Binding Categories}" 
+                      SelectedItem="{Binding ActivePack.Category}"/>
             <StackPanel Orientation="Horizontal">
                 <Label Content="Time Limit in seconds:" />
                 <Label Content="{Binding ActivePack.TimeLimitInSeconds}" Margin="10 0 0 0"/>
