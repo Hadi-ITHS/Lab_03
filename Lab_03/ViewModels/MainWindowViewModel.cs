@@ -1,6 +1,8 @@
 ﻿using Lab_03.Commands;
+using Lab_03.Database;
 using Lab_03.Models;
 using Lab_03.Views;
+using MongoDB.Driver;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -12,6 +14,7 @@ namespace Lab_03.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        //TODO: The Categories instance should load its data from the database
         public DelegateCommand FullscreenCommand { get; }
         public DelegateCommand ShowPlayerViewCommand { get; }
         public DelegateCommand ShowConfigurationViewCommand { get; }
@@ -30,6 +33,8 @@ namespace Lab_03.ViewModels
         private QuestionPackViewModel _activePack;
         public PlayerViewModel? PlayerViewModel { get;}
         public ConfigurationViewModel? ConfigurationViewModel { get; }
+        public MongoDbManager MongoDbManager { get; set; }
+        public List<string> Categories { get; set; }
         public QuestionPackViewModel ActivePack
         {
             get => _activePack;
@@ -44,13 +49,21 @@ namespace Lab_03.ViewModels
         }
         public MainWindowViewModel(MainWindow mainWindow)
         {
-            appDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Lab03");
-            Directory.CreateDirectory(appDataPath);
-            jsonPath = Path.Combine(appDataPath, "Questions.json");
+            Categories = new List<string>();
+            MongoDbManager = new MongoDbManager(this);
             packs = new ObservableCollection<QuestionPackViewModel>();
-            if (packs.Count < 0)
+            LoadQuestionPacks();
+            if (packs.Count < 1)
+            {
                 packs.Add(new QuestionPackViewModel(new QuestionPack("Default pack")));
-            LoadPacksAsync();
+                MongoDbManager.InsertQuestionPack(packs[0].Model);
+            }
+            LoadCategories();
+            if (Categories.Count < 1)
+            {
+                Categories.Add("Default category");
+                MongoDbManager.InsertCategory(Categories[0]);
+            }
             MainWindow = mainWindow;
             ConfigurationView = new ConfigurationView();
             PlayerViewModel = new PlayerViewModel(this);
@@ -80,7 +93,7 @@ namespace Lab_03.ViewModels
         private void OnClosing (CancelEventArgs e)
         {
             UpdatePacks();
-            JsonWriteAsync();
+            MongoDbManager.UpdateCollection();
         }
         private void SetActivePack(object? obj)
         {
@@ -184,38 +197,19 @@ namespace Lab_03.ViewModels
             ShowConfigurationViewCommand.RaiseCanExecuteChanged();
             ShowPlayerViewCommand.RaiseCanExecuteChanged();
         }
-        private async Task JsonWriteAsync()
+        private void LoadQuestionPacks()
         {
-            //File.WriteAllText(jsonPath, JsonSerializer.Serialize(packs));
-            using FileStream stream = File.OpenWrite(jsonPath);
-            await JsonSerializer.SerializeAsync(stream, packs);
-        }
-        private async Task LoadPacksAsync()
-        {
-            var importPacksTask = JsonReadAsync();
-            var importedPacks = await importPacksTask;
-            foreach (var pack in importedPacks)
-            {
-                packs.Add(new QuestionPackViewModel(pack));
-            }
+            var collection = MongoDbManager.LoadQuestionPacks();
+            foreach (var document in collection)
+                packs.Add(new QuestionPackViewModel(document));
             if (packs.Count > 0)
                 ActivePack = packs[0];
         }
-        private async Task<List<QuestionPack>> JsonReadAsync()
+        private void LoadCategories ()
         {
-            if (!File.Exists(jsonPath))
-            {
-                File.Create(jsonPath);
-                var tmpPack = new List<QuestionPack>();
-                tmpPack.Add(new QuestionPack("Default pack"));
-                return tmpPack;
-            }
-            else
-            {
-                using FileStream stream = File.OpenRead(jsonPath);
-                var importedPacks = await JsonSerializer.DeserializeAsync<List<QuestionPack>>(stream);
-                return importedPacks ?? new List<QuestionPack>();
-            }   
+            var collection = MongoDbManager.LoadCategories();
+            foreach (var document in collection)
+                Categories.Add(document);
         }
     }
 }

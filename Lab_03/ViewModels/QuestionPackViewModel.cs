@@ -11,45 +11,45 @@ namespace Lab_03.ViewModels
 {
     public class QuestionPackViewModel : ViewModelBase
     {
-        private readonly QuestionPack _model;
+        public QuestionPack Model { get;}
         public string Name
         {
-            get => _model.Name;
+            get => Model.Name;
             set
             {
-                _model.Name = value;
+                Model.Name = value;
                 RaisePropertyChanged();
             }
         }
         public int TimeLimitInSeconds
         {
-            get => _model.TimeLimitInSeconds;
+            get => Model.TimeLimitInSeconds;
             set
             {
-                _model.TimeLimitInSeconds = value;
+                Model.TimeLimitInSeconds = value;
                 RaisePropertyChanged();
             }
         }
         public Difficulty Difficulty
         {
-            get => _model.Difficulty;
+            get => Model.Difficulty;
             set
             {
-                _model.Difficulty = value;
+                Model.Difficulty = value;
                 RaisePropertyChanged();
             }
         }
         public ObservableCollection<Question> Questions { get; set; }
         public List<string[]> RandomizedQuestions { get; set; }
-        public List<string> RandomizedQuerries { get; set; }
+        public List<string> RandomizedQueries { get; set; }
         public List<string> RandomizedCorrectAnswers { get; set; }
         public QuestionPackViewModel(QuestionPack model)
         {
-            _model = model;
-            Questions = new ObservableCollection<Question>(_model.Questions);
+            Model = model;
+            Questions = new ObservableCollection<Question>(Model.Questions);
             Questions.CollectionChanged += Questions_CollectionChanged;
             RandomizedQuestions = new List<string[]>();
-            RandomizedQuerries = new List<string>();
+            RandomizedQueries = new List<string>();
             RandomizedCorrectAnswers = new List<string>();
         }
 
@@ -57,14 +57,14 @@ namespace Lab_03.ViewModels
         {
             if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
                 foreach (Question q in e.NewItems)
-                    _model.Questions.Add(q);
+                    Model.Questions.Add(q);
             if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
                 foreach (Question q in e.OldItems)
-                    _model.Questions.Remove(q);
+                    Model.Questions.Remove(q);
             if (e.Action == NotifyCollectionChangedAction.Replace && e.NewItems != null && e.NewItems != null)
-                _model.Questions[e.OldStartingIndex] = (Question)e.NewItems[0]!;
+                Model.Questions[e.OldStartingIndex] = (Question)e.NewItems[0]!;
             if (e.Action == NotifyCollectionChangedAction.Reset)
-                _model.Questions.Clear();
+                Model.Questions.Clear();
         }
     }
 }

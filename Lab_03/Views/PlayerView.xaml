@@ -24,7 +24,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="3" Grid.Row="0" Content="{Binding TimeLimit}" FontSize="40" HorizontalAlignment="Right" Margin="10"/>
-        <Label Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" Grid.ColumnSpan="2" Content="{Binding CurrentQuerry}" FontSize="40" HorizontalAlignment="Center" Margin="10"/>
+        <Label Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" VerticalAlignment="Center" Grid.ColumnSpan="2" Content="{Binding CurrentQuery}" FontSize="40" HorizontalAlignment="Center" Margin="10"/>
         <Label Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" VerticalAlignment="Center" Grid.ColumnSpan="2" Content="{Binding QuestionCountDescription}" FontSize="20" HorizontalAlignment="Center"/>
         <Button  Grid.Row="3" Name="Button0" Grid.Column="1" Content="{Binding CurrentQuestion[0]}" FontSize="20" Margin="5 10" Width="188" Click="Button0_Click"/>
         <Button  Grid.Row="3" Name="Button1" Grid.Column="2" Content="{Binding CurrentQuestion[1]}" FontSize="20" Margin="5 10 " Width="188" Click="Button1_Click"/>

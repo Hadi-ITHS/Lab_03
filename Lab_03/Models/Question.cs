@@ -8,14 +8,14 @@ namespace Lab_03.Models
 {
     public class Question
     {
-        public Question(string querry, string correctAnswer, string[] incorrectAnswers)
+        public Question(string query, string correctAnswer, string[] incorrectAnswers)
         {
-            Querry = querry;
+            Query = query;
             CorrectAnswer = correctAnswer;
             IncorrectAnswers = incorrectAnswers;
         }
 
-        public string Querry {  get; set; }
+        public string Query {  get; set; }
         public string CorrectAnswer { get; set; }
         public string [] IncorrectAnswers { get; set; }
     }

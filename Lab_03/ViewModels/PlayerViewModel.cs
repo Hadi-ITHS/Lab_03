@@ -23,16 +23,16 @@ namespace Lab_03.ViewModels
         private readonly MainWindowViewModel _mainWindowViewModel;
         private string[] answers;
         private int _timer;
-        private string _currentQuerry;
+        private string _currentQuery;
         private string[] _currentQuestion;
         public string GameOverViewText { get; set; }
         public string ChosenAnswer { get; set; }
-        public string CurrentQuerry
+        public string CurrentQuery
         {
-            get => _currentQuerry;
+            get => _currentQuery;
             set
             {
-                _currentQuerry = value;
+                _currentQuery = value;
                 RaisePropertyChanged();
             }
         }
@@ -80,7 +80,7 @@ namespace Lab_03.ViewModels
                 QuestionCountDescription = $"Question {currentIndex + 1} of {ActivePack.Questions.Count}";
                 RandomizeQuestions();
                 CurrentQuestion = ActivePack.RandomizedQuestions[currentIndex];
-                CurrentQuerry = ActivePack.RandomizedQuerries[currentIndex];
+                CurrentQuery = ActivePack.RandomizedQueries[currentIndex];
                 TimeLimit = ActivePack.TimeLimitInSeconds;
                 dispatcherTimer = new DispatcherTimer();
                 dispatcherTimer.Interval = TimeSpan.FromSeconds(1f);
@@ -119,7 +119,7 @@ namespace Lab_03.ViewModels
                 QuestionCountDescription = $"Question {currentIndex + 1} of {ActivePack.Questions.Count}";
                 dispatcherTimer.Stop();
                 CurrentQuestion = ActivePack.RandomizedQuestions[currentIndex];
-                CurrentQuerry = ActivePack.RandomizedQuerries[currentIndex];
+                CurrentQuery = ActivePack.RandomizedQueries[currentIndex];
                 dispatcherTimer.Start();
             }
             else
@@ -138,14 +138,14 @@ namespace Lab_03.ViewModels
         private void RandomizeQuestions()
         {
             ActivePack.RandomizedQuestions.Clear();
-            ActivePack.RandomizedQuerries.Clear();
+            ActivePack.RandomizedQueries.Clear();
             ActivePack.RandomizedCorrectAnswers.Clear();
             Question[] randomizedQuestions = ActivePack.Questions.ToArray();
             Random.Shared.Shuffle(randomizedQuestions);
             for (int i = 0; i < randomizedQuestions.Length; i++)
             { 
                 ActivePack.RandomizedQuestions.Add(RandomizeAnswers(randomizedQuestions[i]));
-                ActivePack.RandomizedQuerries.Add(randomizedQuestions[i].Querry);
+                ActivePack.RandomizedQueries.Add(randomizedQuestions[i].Query);
             }
         }
         private string[] RandomizeAnswers(Question currentQuestion)
