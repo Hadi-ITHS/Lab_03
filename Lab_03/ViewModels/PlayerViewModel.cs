@@ -137,9 +137,12 @@ namespace Lab_03.ViewModels
         }
         private void RandomizeQuestions()
         {
-            ActivePack.RandomizedQuestions.Clear();
-            ActivePack.RandomizedQueries.Clear();
-            ActivePack.RandomizedCorrectAnswers.Clear();
+            if (ActivePack.RandomizedQuestions != null)
+                ActivePack.RandomizedQuestions.Clear();
+            if (ActivePack.RandomizedQueries != null)
+                ActivePack.RandomizedQueries.Clear();
+            if (ActivePack.RandomizedCorrectAnswers != null)
+                ActivePack.RandomizedCorrectAnswers.Clear();
             Question[] randomizedQuestions = ActivePack.Questions.ToArray();
             Random.Shared.Shuffle(randomizedQuestions);
             for (int i = 0; i < randomizedQuestions.Length; i++)

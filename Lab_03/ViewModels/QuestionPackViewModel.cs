@@ -1,61 +1,115 @@
 ﻿using Lab_03.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Specialized;
 
 namespace Lab_03.ViewModels
 {
+    [BsonIgnoreExtraElements]
     public class QuestionPackViewModel : ViewModelBase
     {
-        public QuestionPack Model { get;}
+        private QuestionPack _model;
+        [BsonId]
+        public ObjectId Id { get; set; }
+
+        [BsonElement("name")]
         public string Name
         {
-            get => Model.Name;
+            get => _model.Name;
             set
             {
-                Model.Name = value;
+                if (_model is not null)
+                {
+                _model.Name = value;
                 RaisePropertyChanged();
+                }
+                else
+                {
+                    _model = new QuestionPack(string.Empty);
+                    _model.Name = value;
+                    RaisePropertyChanged();
+                }
             }
         }
+
+        [BsonElement("time_limit_in_seconds")]
         public int TimeLimitInSeconds
         {
-            get => Model.TimeLimitInSeconds;
+            get => _model.TimeLimitInSeconds;
             set
             {
-                Model.TimeLimitInSeconds = value;
-                RaisePropertyChanged();
+                if (_model is not null)
+                {
+                    _model.TimeLimitInSeconds = value;
+                    RaisePropertyChanged();
+                }
+                else
+                {
+                    _model = new QuestionPack(string.Empty);
+                    _model.TimeLimitInSeconds = value;
+                    RaisePropertyChanged();
+                }
             }
         }
+
+        [BsonElement("difficulty")]
         public Difficulty Difficulty
         {
-            get => Model.Difficulty;
+            get => _model.Difficulty;
             set
             {
-                Model.Difficulty = value;
-                RaisePropertyChanged();
+                if (_model is not null)
+                {
+                    _model.Difficulty = value;
+                    RaisePropertyChanged();
+                }
+                else
+                {
+                    _model = new QuestionPack(string.Empty);
+                    _model.Difficulty = value;
+                    RaisePropertyChanged();
+                }
             }
         }
+
+        [BsonElement("category")]
         public string Category
         {
-            get => Model.Category;
+            get => _model.Category;
             set
             {
-                Model.Category = value;
-                RaisePropertyChanged();
+                if (_model is not null)
+                {
+                    _model.Category = value;
+                    RaisePropertyChanged();
+                }
+                else
+                {
+                    _model = new QuestionPack(string.Empty);
+                    _model.Category = value;
+                    RaisePropertyChanged();
+                }
             }
         }
+
+        [BsonElement("questions")]
         public ObservableCollection<Question> Questions { get; set; }
+        [BsonIgnore]
         public List<string[]> RandomizedQuestions { get; set; }
+        [BsonIgnore]
         public List<string> RandomizedQueries { get; set; }
+        [BsonIgnore]
         public List<string> RandomizedCorrectAnswers { get; set; }
         public QuestionPackViewModel(QuestionPack model)
         {
-            Model = model;
-            Questions = new ObservableCollection<Question>(Model.Questions);
+            _model = model;
+            Questions = new ObservableCollection<Question>(_model.Questions);
             Questions.CollectionChanged += Questions_CollectionChanged;
             RandomizedQuestions = new List<string[]>();
             RandomizedQueries = new List<string>();
@@ -66,14 +120,14 @@ namespace Lab_03.ViewModels
         {
             if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems != null)
                 foreach (Question q in e.NewItems)
-                    Model.Questions.Add(q);
+                    _model.Questions.Add(q);
             if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems != null)
                 foreach (Question q in e.OldItems)
-                    Model.Questions.Remove(q);
+                    _model.Questions.Remove(q);
             if (e.Action == NotifyCollectionChangedAction.Replace && e.NewItems != null && e.NewItems != null)
-                Model.Questions[e.OldStartingIndex] = (Question)e.NewItems[0]!;
+                _model.Questions[e.OldStartingIndex] = (Question)e.NewItems[0]!;
             if (e.Action == NotifyCollectionChangedAction.Reset)
-                Model.Questions.Clear();
+                _model.Questions.Clear();
         }
     }
 }

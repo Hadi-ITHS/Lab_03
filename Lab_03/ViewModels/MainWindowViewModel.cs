@@ -20,6 +20,7 @@ namespace Lab_03.ViewModels
         public DelegateCommand ExitCommand { get; }
         public DelegateCommand DeleteQuestionPackCommand { get; }
         public DelegateCommand OpenAddQuestionPackDialogCommand { get; }
+        public DelegateCommand OpenCategoryOptionsCommand { get; }
         public DelegateCommand SetActivePackCommand { get; }
         public MainWindow MainWindow { get; set; }
         public PlayerView PlayerView { get; set; }
@@ -31,7 +32,16 @@ namespace Lab_03.ViewModels
         public PlayerViewModel? PlayerViewModel { get;}
         public ConfigurationViewModel? ConfigurationViewModel { get; }
         public MongoDbManager MongoDbManager { get; set; }
-        public List<string> Categories { get; set; }
+        private List<string> _categories ;
+        public List<string> Categories 
+        {
+            get => _categories ?? (_categories = new List<string>()); 
+            set
+            {
+                _categories = value;
+                RaisePropertyChanged();
+            }
+        }
         public QuestionPackViewModel ActivePack
         {
             get => _activePack;
@@ -49,18 +59,9 @@ namespace Lab_03.ViewModels
             Categories = new List<string>();
             MongoDbManager = new MongoDbManager(this);
             packs = new ObservableCollection<QuestionPackViewModel>();
-            LoadCategories();
-            if (Categories.Count < 1)
-            {
-                Categories.Add("Default");
-                MongoDbManager.InsertCategory(Categories[0]);
-            }
+            LoadCategories(); 
             LoadQuestionPacks();
-            if (packs.Count < 1)
-            {
-                packs.Add(new QuestionPackViewModel(new QuestionPack("Default pack")));
-                MongoDbManager.InsertQuestionPack(packs[0].Model);
-            }
+            ActivePack = packs[0];
             MainWindow = mainWindow;
             ConfigurationView = new ConfigurationView();
             PlayerViewModel = new PlayerViewModel(this);
@@ -68,6 +69,7 @@ namespace Lab_03.ViewModels
             SetActivePackCommand = new DelegateCommand(SetActivePack);
             OpenAddQuestionPackDialogCommand = new DelegateCommand(OpenAddQuestionPackDialog);
             DeleteQuestionPackCommand = new DelegateCommand(DeleteQuestionPack);
+            OpenCategoryOptionsCommand = new DelegateCommand(OpenCategoryOptionsDialog);
             ExitCommand = new DelegateCommand(Exit);
             ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView, CanShowConfigurationView);
             ShowPlayerViewCommand = new DelegateCommand(ShowPlayerView, CanShowPlayerView);
@@ -76,6 +78,14 @@ namespace Lab_03.ViewModels
             ActiveView = ConfigurationView;
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
+        }
+        private void OpenCategoryOptionsDialog (object obj)
+        {
+            if (PlayerViewModel.playState != PlayState.Playing)
+            {
+                var categoryOptionsDialog = new CategoryOptionsDialog (this);
+                categoryOptionsDialog.ShowDialog();
+            }
         }
         private void UpdatePacks()
         {
@@ -90,7 +100,7 @@ namespace Lab_03.ViewModels
         private void OnClosing (CancelEventArgs e)
         {
             UpdatePacks();
-            MongoDbManager.UpdateCollection();
+            MongoDbManager.UpdateQuestionPacks();
         }
         private void SetActivePack(object? obj)
         {
@@ -199,8 +209,21 @@ namespace Lab_03.ViewModels
         {
             var collection = MongoDbManager.LoadQuestionPacks();
             foreach (var document in collection)
-                packs.Add(new QuestionPackViewModel(document));
-            if (packs.Count > 0)
+            {
+                document.RandomizedQueries = new List<string>();
+                document.RandomizedQuestions = new List<string[]>();
+                document.RandomizedCorrectAnswers = new List<string>();
+                packs.Add(document);
+            }
+            if (packs.Count < 1)
+            {
+                var demoQuestion = new List<Question>();
+                demoQuestion.Add(new Question("What is the capital of Sweden?", "Stockholm", ["Malmö", "Göteborg", "Uppsala"]));
+                packs.Add(new QuestionPackViewModel(new QuestionPack("Default pack") { Questions = demoQuestion}));
+                MongoDbManager.InsertQuestionPack(packs[0]);
+                ActivePack = packs[0];
+            }
+            else
                 ActivePack = packs[0];
         }
         private void LoadCategories ()
@@ -208,6 +231,11 @@ namespace Lab_03.ViewModels
             var collection = MongoDbManager.LoadCategories();
             foreach (var document in collection)
                 Categories.Add(document);
+            if (Categories.Count < 1)
+            {
+                Categories.Add("Default");
+                MongoDbManager.InsertCategory(Categories[0]);
+            }
         }
     }
 }

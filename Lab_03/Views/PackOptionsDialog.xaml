@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Lab_03.Views"
         xmlns:converters="clr-namespace:Lab_03.Converters"
         mc:Ignorable="d"
-        Title="PackOptionsDialog" Height="400" Width="300" ResizeMode="NoResize">
+        Title="Pack Options" Height="400" Width="300" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical">
             <StackPanel.Resources>
