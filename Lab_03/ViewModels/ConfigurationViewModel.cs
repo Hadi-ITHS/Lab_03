@@ -1,4 +1,5 @@
 ﻿using Lab_03.Commands;
+using Lab_03.Database;
 using Lab_03.Models;
 using Lab_03.Views;
 using System;
@@ -15,6 +16,7 @@ namespace Lab_03.ViewModels
         public DelegateCommand AddQuestionCommand { get; }
         public DelegateCommand OpenPackOptionsCommand { get; }
         private List<QuestionPackViewModel> _allPacks = new List<QuestionPackViewModel>();
+        public MongoDbManager MongoDbManager { get; set; }
         private readonly MainWindowViewModel? _mainWindowViewModel;
         private int _SelectedIndex;
         private Question _selectedQuestion;
@@ -60,6 +62,7 @@ namespace Lab_03.ViewModels
             RemoveQuestionCommand = new DelegateCommand(RemoveQuestion, CanRemoveQuestion);
             AddQuestionCommand = new DelegateCommand(AddQuestion, CanAddQuestion);
             OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions, CanOpenPackOptions);
+            MongoDbManager = _mainWindowViewModel.MongoDbManager;
             SelectedIndex = 0;
         }
         private void OpenPackOptions(object? obj)

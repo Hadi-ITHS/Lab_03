@@ -1,7 +1,9 @@
-﻿using Lab_03.Models;
+﻿using Lab_03.Database;
+using Lab_03.Models;
 using Lab_03.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +29,12 @@ namespace Lab_03.Views
             _mainWindowViewModel = mainWindowViewModel;
             InitializeComponent();
             DataContext = _mainWindowViewModel;
+            Closing += (s, e) => OnClosing(e);
+        }
+
+        private void OnClosing(CancelEventArgs e)
+        {
+            _mainWindowViewModel.MongoDbManager.ReplaceQuestionPack(_mainWindowViewModel.ActivePack);
         }
     }
 }

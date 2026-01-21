@@ -20,30 +20,18 @@ namespace Lab_03.Views
     public partial class CategoryOptionsDialog : Window
     {
         private MainWindowViewModel MainWindowViewModel { get; set; }
-        public List<string> _categories ;
-        public List<string> Categories
-        {
-            get => _categories;
-            set
-            {
-                _categories = value;
-            }
-        }
-        public string SelectedCategory { get; set; }
         public CategoryOptionsDialog(MainWindowViewModel mainWindowViewModel)
         {
             MainWindowViewModel = mainWindowViewModel;
-            Categories = mainWindowViewModel.Categories;
+            //Categories = mainWindowViewModel.Categories;
             InitializeComponent();
-            DataContext = this;
+            DataContext = MainWindowViewModel;
         }
 
         private void AddToCategories_Click(object sender, RoutedEventArgs e)
         {
             MainWindowViewModel.MongoDbManager.InsertCategory(CategoryTextBox.Text);
             MainWindowViewModel.Categories = MainWindowViewModel.MongoDbManager.LoadCategories();
-            Categories = MainWindowViewModel.Categories;
-            CategoryComboBox.ItemsSource = Categories;
             CategoryTextBox.Clear();
         }
 
@@ -51,8 +39,6 @@ namespace Lab_03.Views
         {
             MainWindowViewModel.MongoDbManager.RemoveCategory(CategoryComboBox.SelectedItem.ToString());
             MainWindowViewModel.Categories = MainWindowViewModel.MongoDbManager.LoadCategories();
-            Categories = MainWindowViewModel.Categories;
-            CategoryComboBox.ItemsSource = Categories;
             if (CategoryComboBox.Items.Count > 0)
                 CategoryComboBox.SelectedIndex = 0;
         }

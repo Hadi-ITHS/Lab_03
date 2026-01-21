@@ -74,7 +74,7 @@ namespace Lab_03.ViewModels
             ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView, CanShowConfigurationView);
             ShowPlayerViewCommand = new DelegateCommand(ShowPlayerView, CanShowPlayerView);
             FullscreenCommand = new DelegateCommand(FullScreen);
-            mainWindow.Closing += (s, e) => OnClosing(e);
+            //mainWindow.Closing += (s, e) => OnClosing(e);
             ActiveView = ConfigurationView;
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
@@ -97,11 +97,11 @@ namespace Lab_03.ViewModels
                 }
             }
         }
-        private void OnClosing (CancelEventArgs e)
+/*        private void OnClosing (CancelEventArgs e)
         {
             UpdatePacks();
-            MongoDbManager.UpdateQuestionPacks();
-        }
+            //MongoDbManager.UpdateAllQuestionPacks();
+        }*/
         private void SetActivePack(object? obj)
         {
             if (obj is QuestionPackViewModel selectedPack && PlayerViewModel.playState != PlayState.Playing)
@@ -124,7 +124,6 @@ namespace Lab_03.ViewModels
                 {
                     ActivePack = packs[packs.Count - 1];
                     ConfigurationViewModel.SelectedQuestion = null;
-                    //MongoDbManager.InsertQuestionPack(ActivePack.Model);
                 }
             }
         }
@@ -135,7 +134,10 @@ namespace Lab_03.ViewModels
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this question pack?", "Confirm Action", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
                 if (result == MessageBoxResult.Yes && packs.Count > 1)
                 {
-                    packs.Remove(ActivePack);
+                    MongoDbManager.RemoveQuestionPack(ActivePack);
+                    var packToRemove = ActivePack;
+                    ActivePack = packs[0];
+                    packs.Remove(packToRemove);
                     if (packs.Count > 0)
                     {
                         ActivePack = packs[0];
@@ -144,7 +146,9 @@ namespace Lab_03.ViewModels
                         else
                             ConfigurationViewModel.SelectedIndex = -1;
                     }
+                    return;
                 }
+                MessageBoxResult error = MessageBox.Show($"Question pack is not deleted!\nAt least one question pack should exist.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void ShowPlayerView (object? obj)

@@ -17,13 +17,10 @@ using System.Windows.Shapes;
 
 namespace Lab_03.Views
 {
-    /// <summary>
-    /// Interaction logic for AddQuestionPackDialog.xaml
-    /// </summary>
     public partial class AddQuestionPackDialog : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private MainWindowViewModel _mainWindowViewModel {  get;}
+        private MainWindowViewModel MainWindowViewModel {  get;}
         public List<string> Categories { get; set; }
         public string SelectedCategory { get; set; }
         public string Name
@@ -60,15 +57,16 @@ namespace Lab_03.Views
         }
         public AddQuestionPackDialog(MainWindowViewModel mainWindowViewModel)
         {
-            _mainWindowViewModel = mainWindowViewModel;
+            MainWindowViewModel = mainWindowViewModel;
             Categories = mainWindowViewModel.Categories;
             InitializeComponent();
             DataContext = this;
         }
         private void CreateButton_Click(object sender, RoutedEventArgs e)
         {
-            var pack = new QuestionPack(Name, TimeLimit, Difficulty, SelectedCategory);
-            _mainWindowViewModel.packs.Add(new QuestionPackViewModel(pack));
+            var pack = new QuestionPackViewModel(new QuestionPack(Name, TimeLimit, Difficulty, SelectedCategory));
+            MainWindowViewModel.MongoDbManager.InsertQuestionPack(pack);
+            MainWindowViewModel.packs.Add(pack);
             DialogResult = true;
             Close();
         }

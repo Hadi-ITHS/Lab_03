@@ -14,7 +14,6 @@ namespace Lab_03.Database
 {
     public class MongoDbManager
     {
-        //TODO: change the QuestionPack mapping with QuestionPackViewModel
         public MainWindowViewModel MainWindowViewModel { get; set; }
         string connectionString = "mongodb://localhost:27017/";
         public MongoClient client;
@@ -27,6 +26,12 @@ namespace Lab_03.Database
         {
             var questionPackCollection = client.GetDatabase("HadiDaliri").GetCollection<QuestionPackViewModel>("question_packs");
             questionPackCollection.InsertOne(questionPack);
+        }
+        public void RemoveQuestionPack (QuestionPackViewModel questionPack)
+        {
+            var filter = Builders<QuestionPackViewModel>.Filter.Eq(q => q.Id, questionPack.Id);
+            var questionPackCollection = client.GetDatabase("HadiDaliri").GetCollection<QuestionPackViewModel>("question_packs");
+            questionPackCollection.DeleteOne(filter);
         }
         public void InsertCategory (string category)
         {
@@ -57,10 +62,11 @@ namespace Lab_03.Database
                 result.Add(category.category);
             return result;
         }
-        public void UpdateQuestionPacks ()
+        public void ReplaceQuestionPack (QuestionPackViewModel questionPack)
         {
-            var filter = Builders<QuestionPackViewModel>.Filter.Empty;
+            var filter = Builders<QuestionPackViewModel>.Filter.Eq(q => q.Id, questionPack.Id);
             var questionPackCollection = client.GetDatabase("HadiDaliri").GetCollection<QuestionPackViewModel>("question_packs");
+            questionPackCollection.ReplaceOne(filter, questionPack);
         }
     }
 }

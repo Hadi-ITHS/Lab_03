@@ -13,9 +13,7 @@
             <Button Name="AddCategoryButton" Content="Add to Categories" Margin="60 20" Padding="20 5" Click="AddToCategories_Click"/>
             <Line StrokeThickness="1" Stroke="Black" X2="300" Margin="10 40"/>
             <Label Content="Remove from Categories:" />
-            <ComboBox Name="CategoryComboBox" Margin="5" SelectedIndex="0" ItemsSource="{Binding Categories}"
-                      SelectedItem="{Binding SelectedCategory}" >
-            </ComboBox>
+            <ComboBox Name="CategoryComboBox" Margin="5" SelectedIndex="0" ItemsSource="{Binding Categories}" />
             <Button Name="RemoveCategoryButton" Content="Remove from Categories" Margin="60 20" Padding="20 5" Click="RemoveFromCategories_Click"/>
         </StackPanel>
     </Grid>
