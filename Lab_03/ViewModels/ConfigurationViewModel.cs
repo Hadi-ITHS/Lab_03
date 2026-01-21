@@ -75,6 +75,7 @@ namespace Lab_03.ViewModels
             if (ActivePack != null)
             {
                 ActivePack.Questions.Remove(SelectedQuestion);
+                MongoDbManager.ReplaceQuestionPack(ActivePack);
                 SelectedIndex = ActivePack.Questions.Count - 1;
             }
         }
@@ -82,7 +83,9 @@ namespace Lab_03.ViewModels
         {
             if (ActivePack != null)
             {
-                ActivePack.Questions.Add(new Question("New Question", "CorrectAnswer", new string[3] { "IncorrectAnswer 01", "IncorrectAnswer 02", "IncorrectAnswer 03" }));
+                var questionToAdd = new Question("New Question", "CorrectAnswer", new string[3] { "IncorrectAnswer 01", "IncorrectAnswer 02", "IncorrectAnswer 03" });
+                ActivePack.Questions.Add(questionToAdd);
+                MongoDbManager.ReplaceQuestionPack(ActivePack);
                 SelectedIndex = ActivePack.Questions.Count - 1;
             }
         }

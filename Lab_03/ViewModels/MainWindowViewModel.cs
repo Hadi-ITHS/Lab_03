@@ -47,11 +47,12 @@ namespace Lab_03.ViewModels
             get => _activePack;
             set
             {
+                if (_activePack != null)
+                    MongoDbManager.ReplaceQuestionPack(_activePack);
                 _activePack = value;
                 RaisePropertyChanged();
                 ConfigurationViewModel?.RaisePropertyChanged(nameof(ConfigurationViewModel.ActivePack));
                 PlayerViewModel?.RaisePropertyChanged(nameof(PlayerViewModel.ActivePack));
-                UpdatePacks();
             }
         }
         public MainWindowViewModel(MainWindow mainWindow)
@@ -74,7 +75,7 @@ namespace Lab_03.ViewModels
             ShowConfigurationViewCommand = new DelegateCommand(ShowConfigurationView, CanShowConfigurationView);
             ShowPlayerViewCommand = new DelegateCommand(ShowPlayerView, CanShowPlayerView);
             FullscreenCommand = new DelegateCommand(FullScreen);
-            //mainWindow.Closing += (s, e) => OnClosing(e);
+            mainWindow.Closing += (s, e) => OnClosing(e);
             ActiveView = ConfigurationView;
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
@@ -87,21 +88,10 @@ namespace Lab_03.ViewModels
                 categoryOptionsDialog.ShowDialog();
             }
         }
-        private void UpdatePacks()
+        private void OnClosing (CancelEventArgs e)
         {
-            for (int i = 0; i < packs.Count; i++)
-            {
-                if (packs[i].Equals(ActivePack))
-                {
-                    packs[i] = ActivePack;
-                }
-            }
+            MongoDbManager.ReplaceQuestionPack(ActivePack);
         }
-/*        private void OnClosing (CancelEventArgs e)
-        {
-            UpdatePacks();
-            //MongoDbManager.UpdateAllQuestionPacks();
-        }*/
         private void SetActivePack(object? obj)
         {
             if (obj is QuestionPackViewModel selectedPack && PlayerViewModel.playState != PlayState.Playing)
@@ -159,6 +149,7 @@ namespace Lab_03.ViewModels
             ActiveView = PlayerView;
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
+            MongoDbManager.ReplaceQuestionPack(ActivePack);
         }
         private bool CanShowPlayerView (object? obj)
         {
