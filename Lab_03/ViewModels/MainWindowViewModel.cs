@@ -48,7 +48,7 @@ namespace Lab_03.ViewModels
             set
             {
                 if (_activePack != null)
-                    MongoDbManager.ReplaceQuestionPack(_activePack);
+                    MongoDbManager.ReplaceQuestionPackAsync(_activePack);
                 _activePack = value;
                 RaisePropertyChanged();
                 ConfigurationViewModel?.RaisePropertyChanged(nameof(ConfigurationViewModel.ActivePack));
@@ -61,7 +61,7 @@ namespace Lab_03.ViewModels
             MongoDbManager = new MongoDbManager(this);
             packs = new ObservableCollection<QuestionPackViewModel>();
             LoadCategories(); 
-            LoadQuestionPacks();
+            LoadQuestionPacksAsync();
             ActivePack = packs[0];
             MainWindow = mainWindow;
             ConfigurationView = new ConfigurationView();
@@ -88,9 +88,9 @@ namespace Lab_03.ViewModels
                 categoryOptionsDialog.ShowDialog();
             }
         }
-        private void OnClosing (CancelEventArgs e)
+        private async void OnClosing (CancelEventArgs e)
         {
-            MongoDbManager.ReplaceQuestionPack(ActivePack);
+            await MongoDbManager.ReplaceQuestionPackAsync(ActivePack);
         }
         private void SetActivePack(object? obj)
         {
@@ -117,14 +117,14 @@ namespace Lab_03.ViewModels
                 }
             }
         }
-        private void DeleteQuestionPack (object? obj)
+        private async void DeleteQuestionPack (object? obj)
         {
             if (PlayerViewModel.playState != PlayState.Playing)
             {
                 MessageBoxResult result = MessageBox.Show("Are you sure you want to delete this question pack?", "Confirm Action", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.No);
                 if (result == MessageBoxResult.Yes && packs.Count > 1)
                 {
-                    MongoDbManager.RemoveQuestionPack(ActivePack);
+                    await MongoDbManager.RemoveQuestionPackAsync(ActivePack);
                     var packToRemove = ActivePack;
                     ActivePack = packs[0];
                     packs.Remove(packToRemove);
@@ -141,7 +141,7 @@ namespace Lab_03.ViewModels
                 MessageBoxResult error = MessageBox.Show($"Question pack is not deleted!\nAt least one question pack should exist.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void ShowPlayerView (object? obj)
+        private async void ShowPlayerView (object? obj)
         {
             PlayerViewModel.StartQuiz();
             MainWindow.Grid.Children.Remove(ActiveView);
@@ -149,7 +149,7 @@ namespace Lab_03.ViewModels
             ActiveView = PlayerView;
             Grid.SetRow(ActiveView, 1);
             MainWindow.Grid.Children.Add(ActiveView);
-            MongoDbManager.ReplaceQuestionPack(ActivePack);
+            await MongoDbManager.ReplaceQuestionPackAsync(ActivePack);
         }
         private bool CanShowPlayerView (object? obj)
         {
@@ -200,7 +200,7 @@ namespace Lab_03.ViewModels
             ShowConfigurationViewCommand.RaiseCanExecuteChanged();
             ShowPlayerViewCommand.RaiseCanExecuteChanged();
         }
-        private void LoadQuestionPacks()
+        private async Task LoadQuestionPacksAsync()
         {
             var collection = MongoDbManager.LoadQuestionPacks();
             foreach (var document in collection)
@@ -215,13 +215,13 @@ namespace Lab_03.ViewModels
                 var demoQuestion = new List<Question>();
                 demoQuestion.Add(new Question("What is the capital of Sweden?", "Stockholm", ["Malmö", "Göteborg", "Uppsala"]));
                 packs.Add(new QuestionPackViewModel(new QuestionPack("Default pack") { Questions = demoQuestion}));
-                MongoDbManager.InsertQuestionPack(packs[0]);
+                await MongoDbManager.InsertQuestionPackAsync(packs[0]);
                 ActivePack = packs[0];
             }
             else
                 ActivePack = packs[0];
         }
-        private void LoadCategories ()
+        private async Task LoadCategories ()
         {
             var collection = MongoDbManager.LoadCategories();
             foreach (var document in collection)
@@ -229,7 +229,7 @@ namespace Lab_03.ViewModels
             if (Categories.Count < 1)
             {
                 Categories.Add("Default");
-                MongoDbManager.InsertCategory(Categories[0]);
+                await MongoDbManager.InsertCategoryAsync(Categories[0]);
             }
         }
     }

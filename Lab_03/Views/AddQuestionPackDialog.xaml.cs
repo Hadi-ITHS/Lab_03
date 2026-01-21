@@ -62,10 +62,10 @@ namespace Lab_03.Views
             InitializeComponent();
             DataContext = this;
         }
-        private void CreateButton_Click(object sender, RoutedEventArgs e)
+        private async void CreateButton_Click(object sender, RoutedEventArgs e)
         {
             var pack = new QuestionPackViewModel(new QuestionPack(Name, TimeLimit, Difficulty, SelectedCategory));
-            MainWindowViewModel.MongoDbManager.InsertQuestionPack(pack);
+            await MainWindowViewModel.MongoDbManager.InsertQuestionPackAsync(pack);
             MainWindowViewModel.packs.Add(pack);
             DialogResult = true;
             Close();

@@ -21,7 +21,7 @@
                 </MenuItem.ItemContainerStyle>
             </MenuItem>
             <MenuItem Header="Delete Question Pack" Command="{Binding DeleteQuestionPackCommand}" Icon="{fa:Icon Trash}"/>
-            <MenuItem Header="Category Options" Command="{Binding OpenCategoryOptionsCommand}" />
+            <MenuItem Header="Category Options" Command="{Binding OpenCategoryOptionsCommand}" Icon="{fa:Icon LayerGroup}" />
             <Separator />
             <MenuItem Header="Import Questions" Icon="{fa:Icon FileArrowDown}"/>
             <Separator />

@@ -59,7 +59,7 @@ namespace Lab_03.ViewModels
         public ConfigurationViewModel(MainWindowViewModel? mainWindowViewModel)
         {
             _mainWindowViewModel = mainWindowViewModel;
-            RemoveQuestionCommand = new DelegateCommand(RemoveQuestion, CanRemoveQuestion);
+            RemoveQuestionCommand = new DelegateCommand(RemoveQuestionAsync, CanRemoveQuestion);
             AddQuestionCommand = new DelegateCommand(AddQuestion, CanAddQuestion);
             OpenPackOptionsCommand = new DelegateCommand(OpenPackOptions, CanOpenPackOptions);
             MongoDbManager = _mainWindowViewModel.MongoDbManager;
@@ -70,22 +70,22 @@ namespace Lab_03.ViewModels
             var packOptionsDialog = new PackOptionsDialog(_mainWindowViewModel);
             packOptionsDialog.ShowDialog();
         }
-        private void RemoveQuestion(object? obj)
+        private async void RemoveQuestionAsync(object? obj)
         {
             if (ActivePack != null)
             {
                 ActivePack.Questions.Remove(SelectedQuestion);
-                MongoDbManager.ReplaceQuestionPack(ActivePack);
+                await MongoDbManager.ReplaceQuestionPackAsync(ActivePack);
                 SelectedIndex = ActivePack.Questions.Count - 1;
             }
         }
-        private void AddQuestion(object? obj)
+        private async void AddQuestion(object? obj)
         {
             if (ActivePack != null)
             {
                 var questionToAdd = new Question("New Question", "CorrectAnswer", new string[3] { "IncorrectAnswer 01", "IncorrectAnswer 02", "IncorrectAnswer 03" });
                 ActivePack.Questions.Add(questionToAdd);
-                MongoDbManager.ReplaceQuestionPack(ActivePack);
+                await MongoDbManager.ReplaceQuestionPackAsync(ActivePack);
                 SelectedIndex = ActivePack.Questions.Count - 1;
             }
         }

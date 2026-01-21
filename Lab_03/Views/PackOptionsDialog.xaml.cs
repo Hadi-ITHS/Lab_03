@@ -31,10 +31,9 @@ namespace Lab_03.Views
             DataContext = _mainWindowViewModel;
             Closing += (s, e) => OnClosing(e);
         }
-
-        private void OnClosing(CancelEventArgs e)
+        private async void OnClosing(CancelEventArgs e)
         {
-            _mainWindowViewModel.MongoDbManager.ReplaceQuestionPack(_mainWindowViewModel.ActivePack);
+            await _mainWindowViewModel.MongoDbManager.ReplaceQuestionPackAsync(_mainWindowViewModel.ActivePack);
         }
     }
 }

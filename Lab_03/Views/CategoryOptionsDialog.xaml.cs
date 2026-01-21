@@ -28,16 +28,16 @@ namespace Lab_03.Views
             DataContext = MainWindowViewModel;
         }
 
-        private void AddToCategories_Click(object sender, RoutedEventArgs e)
+        private async void AddToCategories_Click(object sender, RoutedEventArgs e)
         {
-            MainWindowViewModel.MongoDbManager.InsertCategory(CategoryTextBox.Text);
+            await MainWindowViewModel.MongoDbManager.InsertCategoryAsync(CategoryTextBox.Text);
             MainWindowViewModel.Categories = MainWindowViewModel.MongoDbManager.LoadCategories();
             CategoryTextBox.Clear();
         }
 
-        private void RemoveFromCategories_Click(object sender, RoutedEventArgs e)
+        private async void RemoveFromCategories_Click(object sender, RoutedEventArgs e)
         {
-            MainWindowViewModel.MongoDbManager.RemoveCategory(CategoryComboBox.SelectedItem.ToString());
+            await MainWindowViewModel.MongoDbManager.RemoveCategoryAsync(CategoryComboBox.SelectedItem.ToString());
             MainWindowViewModel.Categories = MainWindowViewModel.MongoDbManager.LoadCategories();
             if (CategoryComboBox.Items.Count > 0)
                 CategoryComboBox.SelectedIndex = 0;

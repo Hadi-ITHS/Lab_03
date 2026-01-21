@@ -22,28 +22,28 @@ namespace Lab_03.Database
             MainWindowViewModel = mainWindowViewModel;
             client = new MongoClient(connectionString);
         }
-        public void InsertQuestionPack (QuestionPackViewModel questionPack)
+        public async Task InsertQuestionPackAsync (QuestionPackViewModel questionPack)
         {
             var questionPackCollection = client.GetDatabase("HadiDaliri").GetCollection<QuestionPackViewModel>("question_packs");
-            questionPackCollection.InsertOne(questionPack);
+            await questionPackCollection.InsertOneAsync(questionPack);
         }
-        public void RemoveQuestionPack (QuestionPackViewModel questionPack)
+        public async Task RemoveQuestionPackAsync (QuestionPackViewModel questionPack)
         {
             var filter = Builders<QuestionPackViewModel>.Filter.Eq(q => q.Id, questionPack.Id);
             var questionPackCollection = client.GetDatabase("HadiDaliri").GetCollection<QuestionPackViewModel>("question_packs");
-            questionPackCollection.DeleteOne(filter);
+            await questionPackCollection.DeleteOneAsync(filter);
         }
-        public void InsertCategory (string category)
+        public async Task InsertCategoryAsync (string category)
         {
             var addedCategory = new Category(category);
             var categoryCollection = client.GetDatabase("HadiDaliri").GetCollection<Category>("categories");
-            categoryCollection.InsertOne(addedCategory);
+            await categoryCollection.InsertOneAsync(addedCategory);
         }
-        public void RemoveCategory (string category)
+        public async Task RemoveCategoryAsync (string category)
         {
             var filter = Builders<Category>.Filter.Eq(c => c.category, category);
             var categoryCollection = client.GetDatabase("HadiDaliri").GetCollection<Category>("categories");
-            categoryCollection.DeleteOne(filter);
+            await categoryCollection.DeleteOneAsync(filter);
         }
         public List<QuestionPackViewModel> LoadQuestionPacks ()
         {
@@ -62,11 +62,11 @@ namespace Lab_03.Database
                 result.Add(category.category);
             return result;
         }
-        public void ReplaceQuestionPack (QuestionPackViewModel questionPack)
+        public async Task ReplaceQuestionPackAsync (QuestionPackViewModel questionPack)
         {
             var filter = Builders<QuestionPackViewModel>.Filter.Eq(q => q.Id, questionPack.Id);
             var questionPackCollection = client.GetDatabase("HadiDaliri").GetCollection<QuestionPackViewModel>("question_packs");
-            questionPackCollection.ReplaceOne(filter, questionPack);
+            await questionPackCollection.ReplaceOneAsync(filter, questionPack);
         }
     }
 }
