@@ -29,9 +29,14 @@ namespace Lab_03.Views
         }
         private async void AddToCategories_Click(object sender, RoutedEventArgs e)
         {
+            if (CategoryTextBox.Text != "")
+            {
             await MainWindowViewModel.MongoDbManager.InsertCategoryAsync(CategoryTextBox.Text);
             MainWindowViewModel.Categories = MainWindowViewModel.MongoDbManager.LoadCategories();
             CategoryTextBox.Clear();
+            }
+            else
+                MessageBox.Show("You have to enter a category name to create one!","Error",MessageBoxButton.OK,MessageBoxImage.Error);
         }
         private async void RemoveFromCategories_Click(object sender, RoutedEventArgs e)
         {
