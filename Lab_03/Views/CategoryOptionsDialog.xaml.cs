@@ -27,14 +27,12 @@ namespace Lab_03.Views
             InitializeComponent();
             DataContext = MainWindowViewModel;
         }
-
         private async void AddToCategories_Click(object sender, RoutedEventArgs e)
         {
             await MainWindowViewModel.MongoDbManager.InsertCategoryAsync(CategoryTextBox.Text);
             MainWindowViewModel.Categories = MainWindowViewModel.MongoDbManager.LoadCategories();
             CategoryTextBox.Clear();
         }
-
         private async void RemoveFromCategories_Click(object sender, RoutedEventArgs e)
         {
             await MainWindowViewModel.MongoDbManager.RemoveCategoryAsync(CategoryComboBox.SelectedItem.ToString());

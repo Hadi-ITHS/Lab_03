@@ -14,7 +14,6 @@ namespace Lab_03.Models
             CorrectAnswer = correctAnswer;
             IncorrectAnswers = incorrectAnswers;
         }
-
         public string Query {  get; set; }
         public string CorrectAnswer { get; set; }
         public string [] IncorrectAnswers { get; set; }

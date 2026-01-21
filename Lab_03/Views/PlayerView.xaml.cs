@@ -38,7 +38,6 @@ namespace Lab_03.Views
             RevealCorrectAnswer();
             _playerViewmodel.IsAnswerChosen = true;
         }
-
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
             _playerViewmodel.ChosenAnswer = Button1.Content?.ToString();
@@ -46,7 +45,6 @@ namespace Lab_03.Views
             RevealCorrectAnswer();
             _playerViewmodel.IsAnswerChosen = true;
         }
-
         private void Button2_Click(object sender, RoutedEventArgs e)
         {
             _playerViewmodel.ChosenAnswer = Button2.Content?.ToString();
@@ -54,7 +52,6 @@ namespace Lab_03.Views
             RevealCorrectAnswer();
             _playerViewmodel.IsAnswerChosen = true;
         }
-
         private void Button3_Click(object sender, RoutedEventArgs e)
         {
             _playerViewmodel.ChosenAnswer = Button3.Content?.ToString();

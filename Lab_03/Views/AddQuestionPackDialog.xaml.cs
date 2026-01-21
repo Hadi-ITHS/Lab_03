@@ -70,7 +70,6 @@ namespace Lab_03.Views
             DialogResult = true;
             Close();
         }
-
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;

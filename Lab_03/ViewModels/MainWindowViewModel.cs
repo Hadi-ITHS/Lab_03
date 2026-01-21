@@ -212,9 +212,7 @@ namespace Lab_03.ViewModels
             }
             if (packs.Count < 1)
             {
-                var demoQuestion = new List<Question>();
-                demoQuestion.Add(new Question("What is the capital of Sweden?", "Stockholm", ["Malmö", "Göteborg", "Uppsala"]));
-                packs.Add(new QuestionPackViewModel(new QuestionPack("Default pack") { Questions = demoQuestion}));
+                packs.Add(new QuestionPackViewModel(new QuestionPack("Default pack")));
                 await MongoDbManager.InsertQuestionPackAsync(packs[0]);
                 ActivePack = packs[0];
             }
